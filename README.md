@@ -8,7 +8,7 @@ The purpose of this plugin is
 
 This plugin provides automatic or manual recommendations for all products in the webshop. All products are analyzed using custom Deep Learning algorithms and visually similar products are displayed in the cross-selling tab. The analytics of products is performed in an external server and an API key is needed. If you are interested, then please follow the installation to use this plugin in your webshop.
 
-Below is an example of visually similar recommendations for a red jacket. Other examples can be found in our demo store here: https://shopware.visualsearch.at
+Below is an example of visually similar recommendations of a red jacket. Other examples can be found in our demo store here: https://shopware.visualsearch.at
 
 <img src="/demostore-jacket.jpg" alt="drawing" width="500px"/>
 
@@ -24,6 +24,14 @@ The plugin can work only with valid API key.
 The name of the cross-selling is used for the tab in the product detail page.
 
 ### Automatic Computation of Recommendations
+
+#### 1. Follow Shopware tutorial to setup scheduled tasks
+You can find complete instructions here: https://docs.shopware.com/de/shopware-6-de/tutorials-und-faq/scheduled-tasks-anlegen
+
+An example of setup of scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
+* sudo -u www-data crontab -e
+* */5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295
+* */5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295
 
 ### Manual Computation of Recommendations
 

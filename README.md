@@ -7,7 +7,8 @@ The purpose of this plugin is
 * Increased sales for the webshop
 
 The user can easily find the desired product as depicted here:
-![GitHub Jacket](/demostore-jacket.png)
+
+<img src="/demostore-jacket.png" alt="drawing" width="450"/>
 
 ### Installation
 

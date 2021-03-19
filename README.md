@@ -8,6 +8,8 @@ The purpose of this plugin is
 
 This plugin provides automatically or manually recommendations for all products in the webshop. All products are analyzed using Deep Learning and visually similar products are displayed in the cross-selling tab. The analytics of products is performed in an external server and an API key is needed. Please follow the installation to use this plugin in your webshop.
 
+Below is an example of visually similar recommendations for a red jacket. Other examples can be found in our demo store here: https://shopware.visualsearch.at - automatic!
+
 <img src="/demostore-jacket.jpg" alt="drawing" width="500px"/>
 
 ### Installation

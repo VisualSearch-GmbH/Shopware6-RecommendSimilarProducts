@@ -6,7 +6,7 @@ The purpose of this plugin is
 * Longer time spent in the webshop
 * Increased sales for the webshop
 
-The user can easily find the desired product as depicted here:
+This plugin provides automatically or manually recommendations for all products in the webshop. All products are analyzed using Deep Learning and visually similar products are displayed in the cross-selling tab. The analytics of products is performed in an external server and an API key is needed. Please follow the installation to use this plugin in your webshop.
 
 <img src="/demostore-jacket.jpg" alt="drawing" width="500px"/>
 

@@ -12,7 +12,7 @@ Below is an example of visually similar recommendations of a red jacket. Other e
 
 ## Installation
 
-This plugin provides automatic or manual recommendations for all products in the webshop. All products are analyzed using custom Deep Learning algorithms and visually similar products are displayed in the cross-selling tabs. The analytics of products is performed on an external server. Please follow these installation instructions and obtain a **valid API key**.
+This plugin provides automatic or manual computation of recommendations for all products in the webshop. All products are analyzed using custom Deep Learning algorithms and visually similar products are displayed in the cross-selling tabs. The analytics of products is performed on an external server. Please follow these installation instructions and obtain a **valid API key**.
 
 ##### 1. Install the plugin from Shopware marketplace.
 We will provide a link to the plugin soon.

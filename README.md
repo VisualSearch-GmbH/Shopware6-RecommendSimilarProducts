@@ -31,16 +31,16 @@ The plugin can periodically and automatically check, if all of your products hav
 You can find complete instructions here: https://docs.shopware.com/de/shopware-6-de/tutorials-und-faq/scheduled-tasks-anlegen
 
 An example of setup of scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
-* sudo -u www-data crontab -e
-* */5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295
-* */5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295
+* `sudo -u www-data crontab -e`
+* `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
+* `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
 
 ##### 2. Enable the automatic computation of recommendations
 Check the "Enabled" box in the plugin config.
 
 ## Manual Computation of Recommendations
 
-* Update of all categories. This command will check for missing cross-sellings and will update every product in the catalogue. You can invoke this update using e.g. this command with your sw-access-key: curl --location --request POST 'https://shopware.visualsearch.at/store-api/v3/vis/update_categories' --header 'sw-access-key: YOUR_SW_KEY' --data-raw ''
+* Update of all products. This command will *not check for missing cross-sellings* and will update all products in the catalogue. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://shopware.visualsearch.at/store-api/v3/vis/update_categories' --header 'sw-access-key: YOUR_SW_KEY' --data-raw ''`
 
 ### Contact
 E-Mail: office@visualsearch.at, Web: www.visualsearch.at, Phone: +43 670 6017118

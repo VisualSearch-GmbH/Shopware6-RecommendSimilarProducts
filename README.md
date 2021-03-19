@@ -25,7 +25,7 @@ The name of the cross-selling is used for the tab in the product detail page.
 
 ## Automatic Computation of Recommendations
 
-The plugin can periodically and automatically check, if all of your products have cross-sellings with the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The products' IDs, names, image urls and category will be sent to an external server. On the server, for every product the visually closest ones will be automatically computed. Afterwards, the computed cross-sellings will be automatically uploaded back to your webshop.
+The plugin can periodically and automatically check, if all of your products have cross-sellings with the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The products' ID's, name's, image url's and category will be sent to an external server. On the server, for every product the visually closest ones will be automatically computed. Afterwards, the computed cross-sellings will be automatically uploaded back to your webshop.
 
 ##### 1. Follow Shopware tutorial to setup scheduled tasks
 You can find complete instructions here: https://docs.shopware.com/de/shopware-6-de/tutorials-und-faq/scheduled-tasks-anlegen

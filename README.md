@@ -33,13 +33,14 @@ An example of setup of scheduled tasks in Ubuntu 20.04, which will run every 5mi
 * */5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295
 * */5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295
 
-##### 2. Follow Shopware tutorial to setup scheduled tasks
+##### 2. Enable the automatic computation of recommendations
+Check the "Enabled" box in the plugin config.
+
+The plugin will periodically and automatically check, if all of your products have cross-sellings the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The IDs, names, image urls and category of these products will be sent to an external server. On the server, for every product the visually closest ones will be automatically selected. The computed cross-sellings will be automatically uploaded to your webshop.
 
 ## Manual Computation of Recommendations
 
-##### 4. To compute recommendations automatically click on "Enabled".
-In the config setup select the "Enabled" box.
-##### 5. To compute recommendations automatically click on "Enabled".
+adf
 
 ### Contact
 E-Mail: office@visualsearch.at, Web: www.visualsearch.at, Phone: +43 670 6017118

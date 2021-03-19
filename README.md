@@ -8,7 +8,6 @@ The purpose of this plugin is
 
 The user can easily find the desired product as depicted here:
 ![GitHub Jacket](/demostore-jacket.png)
-Format: ![Similar Jackets in Demostore](url)
 
 ### Installation
 

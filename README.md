@@ -10,9 +10,9 @@ Below is an example of visually similar recommendations of a red jacket. Other e
 
 <img src="/demostore-jacket.jpg" alt="drawing" width="500px"/>
 
-This plugin provides automatic or manual recommendations for all products in the webshop. All products are analyzed using custom Deep Learning algorithms and visually similar products are displayed in the cross-selling tab. The analytics of products is performed on an external server. The access to this external server is possible only with an valid API key. To use this plugin, please follow these installation instructions.
-
 ## Installation
+
+This plugin provides automatic or manual recommendations for all products in the webshop. All products are analyzed using custom Deep Learning algorithms and visually similar products are displayed in the cross-selling tab. The analytics of products is performed on an external server. The access to this external server is possible only with an valid API key. To use this plugin, please follow these installation instructions.
 
 ##### 1. Install the plugin from Shopware marketplace.
 We will provide a link to the plugin soon.
@@ -25,6 +25,8 @@ The name of the cross-selling is used for the tab in the product detail page.
 
 ## Automatic Computation of Recommendations
 
+The plugin will periodically and automatically check, if all of your products have cross-sellings the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The IDs, names, image urls and category of these products will be sent to an external server. On the server, for every product the visually closest ones will be automatically selected. The computed cross-sellings will be automatically uploaded to your webshop.
+
 ##### 1. Follow Shopware tutorial to setup scheduled tasks
 You can find complete instructions here: https://docs.shopware.com/de/shopware-6-de/tutorials-und-faq/scheduled-tasks-anlegen
 
@@ -35,8 +37,6 @@ An example of setup of scheduled tasks in Ubuntu 20.04, which will run every 5mi
 
 ##### 2. Enable the automatic computation of recommendations
 Check the "Enabled" box in the plugin config.
-
-The plugin will periodically and automatically check, if all of your products have cross-sellings the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The IDs, names, image urls and category of these products will be sent to an external server. On the server, for every product the visually closest ones will be automatically selected. The computed cross-sellings will be automatically uploaded to your webshop.
 
 ## Manual Computation of Recommendations
 

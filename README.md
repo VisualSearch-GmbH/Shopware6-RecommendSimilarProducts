@@ -30,7 +30,7 @@ The plugin can periodically and automatically check, if all of your products hav
 ##### 1. Follow Shopware tutorial to setup scheduled tasks
 You can find complete instructions here: https://docs.shopware.com/de/shopware-6-de/tutorials-und-faq/scheduled-tasks-anlegen
 
-An example of setup of scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
+An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
 * `sudo -u www-data crontab -e`
 * `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
 * `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`

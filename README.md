@@ -8,7 +8,7 @@ The purpose of this plugin is
 
 The user can easily find the desired product as depicted here:
 
-<img src="/demostore-jacket.png" alt="drawing" width="450"/>
+<img src="/demostore-jacket.png" alt="drawing" width="500"/>
 
 ### Installation
 

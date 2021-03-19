@@ -2,7 +2,7 @@
 Recommends visually similar products in the product detail page using Deep Learning.
 
 The purpose of this plugin is
-* Easy search for desired product
+* Efficient search for desired product
 * Longer time spent in the webshop
 * Increased sales for the webshop
 

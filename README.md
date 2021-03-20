@@ -41,7 +41,7 @@ Check the "Enabled" box in the plugin config.
 
 ## Manual Computation of Recommendations
 
-Alternatively we provide you two possibilities to manually computate product recommendations. First, you can update all recommendations regardless if they already exist or not. Second, only categories with missing recommendations will be updated.
+Alternatively, we provide you two possibilities to manually computate product recommendations. First, you can update all recommendations regardless if they already exist or not. Second, only categories with missing recommendations will be updated.
 
 * Update of all products. This command will *not check for missing cross-sellings* and will update all products in the catalogue. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://YOUR_DOMAIN/store-api/v3/vis/update_categories' --header 'sw-access-key: YOUR_SW_KEY' --data-raw ''`
 * Update of one category. This command will *check for missing cross-sellings* and perform update in two steps. First, it will search for the first category, which contains at least one product with missing cross-selling with the defined name (see 4. in Installation). Second, it will perform an update of the recommendations for the products in this category. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://YOUR_DOMAIN/store-api/v3/vis/update_one_category' --header 'sw-access-key: YOUR_SW_KEY' --data-raw ''`

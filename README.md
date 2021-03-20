@@ -33,8 +33,8 @@ You can find instructions here: https://docs.shopware.com/en/shopware-6-en/tutor
 An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
 * Open crontab config file using `sudo -u www-data crontab -e`
 * Write two following lines of code
-** `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
-** `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
+* `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
+* `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
 
 ##### 2. Enable the automatic computation of recommendations
 Check the "Enabled" box in the plugin config.

@@ -3,7 +3,7 @@ Recommends visually similar products in the product detail page using Deep Learn
 
 The purpose of this plugin is
 * Efficient search for desired product
-* Increased sales for the webshop
+* Increase sales for the webshop
 * Longer time spent in the webshop
 
 Below is an example of visually similar recommendations of a red jacket. Other examples can be found in our demo store here: https://shopware.visualsearch.at
@@ -31,9 +31,10 @@ The plugin can periodically and automatically check, if all of your products hav
 You can find instructions here: https://docs.shopware.com/en/shopware-6-en/tutorials-and-faq/creating-scheduled-tasks
 
 An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
-* `sudo -u www-data crontab -e`
-* `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
-* `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
+* Open crontab config file using `sudo -u www-data crontab -e`
+* Write two following lines of code
+** `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
+** `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
 
 ##### 2. Enable the automatic computation of recommendations
 Check the "Enabled" box in the plugin config.

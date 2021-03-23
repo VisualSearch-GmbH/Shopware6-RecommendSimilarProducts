@@ -37,7 +37,7 @@ An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which wil
 * `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
 
 ##### 2. Enable the automatic computation of recommendations
-Check the "Enabled" box in the plugin config.
+Check the "Automatic Updates Enabled" box in the plugin config.
 
 ## Manual Computation of Recommendations
 

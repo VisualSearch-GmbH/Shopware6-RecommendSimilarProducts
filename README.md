@@ -3,7 +3,7 @@ Recommends visually similar products in the product detail page using Deep Learn
 
 The purpose of this plugin is
 * Efficient search for desired product
-* Optimize conversion rate for the webshop
+* Optimized conversion rate for the webshop
 * Longer time spent in the webshop
 
 Below is an example of visually similar recommendations of a red jacket. Other examples can be found in our demo store here: https://shopware.visualsearch.at

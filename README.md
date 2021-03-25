@@ -25,7 +25,7 @@ The name of the cross-selling is used for the tab in the product detail page.
 
 ## Invoke Computation of Recommendations using Shopware 6 ScheduledTasks
 
-The plugin can periodically and automatically check, if all of your products have cross-sellings with the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The products' ID's, name's, image url's and category will be sent to an external server. On the server, for every product the visually closest ones will be automatically computed. Afterwards, the computed cross-sellings will be automatically uploaded back to your webshop and **all product data on the server will be immediately deleted.**
+The plugin can periodically and automatically check, if all of your products have cross-sellings with the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The products' ID's, name's, image url's and category will be sent to an external server. On the server, for every product the visually closest ones will be automatically computed. Afterwards, the computed cross-sellings will be automatically uploaded back to your webshop.
 
 ##### 1. Follow Shopware tutorial to setup scheduled tasks
 You can find instructions here: https://docs.shopware.com/en/shopware-6-en/tutorials-and-faq/creating-scheduled-tasks
@@ -41,7 +41,7 @@ Check the "Automatic Updates Enabled" box in the plugin config.
 
 ## Invoke Computation of Recommendations using Command
 
-Alternatively, we provide you two possibilities to manually computate product recommendations. First, you can update all recommendations regardless if they already exist or not. Second, only categories with missing recommendations will be updated. **After the computation of the recommendations, all product data on the server will be immediately deleted.**
+Alternatively, we provide you two possibilities to manually computate product recommendations. First, you can update all recommendations regardless if they already exist or not. Second, only categories with missing recommendations will be updated.
 
 * Update of all products. This command will *not check for missing cross-sellings* and will update all products in the catalogue. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://YOUR_DOMAIN/store-api/v3/vis/update_categories' --header 'sw-access-key: YOUR_SW_KEY' --data-raw ''`
 * Update of one category. This command will *check for missing cross-sellings* and perform update in two steps. First, it will search for the first category, which contains at least one product with missing cross-selling with the defined name (see 4. in Installation). Second, it will perform an update of the recommendations for all products in this category. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://YOUR_DOMAIN/store-api/v3/vis/update_one_category' --header 'sw-access-key: YOUR_SW_KEY' --data-raw ''`

@@ -1,4 +1,4 @@
-# Shopware6 - Smart Product Recommendations
+# Shopware6 - Recommend Similar Products
 We help customers find the desired products efficiently and increase the conversion rate of the webshop. This plugin automatically generates similar product recommendations.
 
 The purpose of this plugin is

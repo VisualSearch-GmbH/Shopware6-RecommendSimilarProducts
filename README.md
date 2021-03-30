@@ -1,5 +1,5 @@
-# Shopware6-RecommendSimilarProducts
-Recommends visually similar products in the product detail page using Deep Learning.
+# Shopware6 - Smart Cross-Sellings
+We help customers find the desired products efficiently and increase the conversion rate of the webshop. This plugin automatically generates similar cross-sellings.
 
 The purpose of this plugin is
 * Efficient search for desired product

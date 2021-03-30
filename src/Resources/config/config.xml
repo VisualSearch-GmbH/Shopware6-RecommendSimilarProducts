@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>API credentials</title>
+        <title lang="de-DE">API Zugangsdaten</title>
+
+        <input-field>
+            <name>apiKey</name>
+            <label>API Key:</label>
+            <label lang="de-DE">API Schlüssel</label>
+            <placeholder>API key here - please contact office@visualsearch.at</placeholder>
+            <placeholder lang="de-DE">API-Schlüssel hier - bitte office@visualsearch.at kontaktieren</placeholder>
+            <helpText>Please contact office@visualsearch.at to obtain your API key</helpText>
+            <helpText lang="de-DE">Kontaktieren Sie bitte office@visualsearch.at, um Ihren API-Schlüssel zu erhalten</helpText>
+        </input-field>
+
+        <component name="vis-get-credentials">
+            <name>getCredentials</name>
+        </component>
+
+        <component name="vis-verify-api-key">
+            <name>apiTest</name>
+        </component>
+    </card>
+
+    <card>
+        <title>Configuration</title>
+        <title lang="de-DE">Konfiguration</title>
+
+        <input-field type="text">
+            <name>cross</name>
+            <label>Name of Cross Selling Tab</label>
+            <label lang="de-DE">Name des Cross-Selling Tabs</label>
+            <placeholder>Product Recommendations</placeholder>
+            <placeholder lang="de-DE">Ähnliche Produktempfehlungen</placeholder>
+            <helpText>Define the display name of the cross-selling tab</helpText>
+            <helpText lang="de-DE">Definieren Sie den Anzeigenamen des Cross-Sellings</helpText>
+        </input-field>
+
+        <input-field type="checkbox">
+            <name>enabled</name>
+            <label>Automatic Updates Enabled</label>
+            <label lang="de-DE">Automatische Aktualisierungen Aktiviert</label>
+            <helpText>To enable automatic updating of cross-sellings, turn on this box.</helpText>
+            <helpText lang="de-DE">Um die automatische Aktualisierung von Cross-Sellings zu aktivieren, schalten Sie dieses Feld ein.</helpText>
+        </input-field>
+    </card>
+
+    <card>
+        <title>Support</title>
+        <component name="vis-support">
+            <name>support</name>
+        </component>
+    </card>
+</config>

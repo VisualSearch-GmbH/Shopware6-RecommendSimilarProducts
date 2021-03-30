@@ -1,0 +1,42 @@
+{
+  "name": "vis/recommend-similar-products",
+  "description": "Recommends visually similar products in the product detail page using Deep Learning.",
+  "version": "1.0.0",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "VisualSearch GmbH",
+      "email": "office@visualsearch.at",
+      "homepage": "https://www.visualsearch.at"
+    }
+  ],
+  "require": {
+    "shopware/core": "~6.3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vis\\RecommendSimilarProducts\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "Vis\\RecommendSimilarProducts\\VisRecommendSimilarProducts",
+    "copyright": "Copyright (c) 2021 VisualSearch GmbH",
+    "label": {
+      "de-DE": "Visuell Ähnliche Produktempfehlungen",
+      "en-GB": "Visually Similar Product Recommendations"
+    },
+    "description": {
+      "de-DE": "Empfehlungen für visuell ähnliche Produkte auf der Produktdetailseite.",
+      "en-GB": "Recommends visually similar products in the product detail page."
+    },
+    "manufacturerLink": {
+      "de-DE": "https://www.visualsearch.at/",
+      "en-GB": "https://www.visualsearch.at/"
+    },
+    "supportLink": {
+      "de-DE": "https://www.visualsearch.at/index.php/support",
+      "en-GB": "https://www.visualsearch.at/index.php/support"
+    }
+  }
+}

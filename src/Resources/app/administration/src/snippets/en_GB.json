@@ -1,0 +1,24 @@
+{
+    "vis-get-credentials": {
+        "title": "Click here to get your API credentials"
+    },
+    "vis-verify-api-key": {
+        "success": "Connection was successfully established",
+        "error": "Connection could not be established. Please check your API credentials",
+        "apiButton": "Validate API credentials"
+    },
+    "vis-support": {
+        "documentation": "Documentation",
+        "api_documentation": "API Documentation",
+        "read_docs": "Read our documentation for more information about VisualSearch and how to get started",
+        "manual": "Manual",
+        "changelog": "Changelog",
+        "faq": "FAQ",
+        "for_developers": "For developers",
+        "account": "Account",
+        "e-mail": "E-mail",
+        "telephone": "Telephone",
+        "contact": "Contact",
+        "visualsearch_assistance_integration_team": "Need assistance? Feel free to contact our integration team:"
+    }
+}

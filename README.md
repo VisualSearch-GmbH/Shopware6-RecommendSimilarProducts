@@ -1,5 +1,5 @@
-# Shopware6 - Smart Cross-Sellings
-We help customers find the desired products efficiently and increase the conversion rate of the webshop. This plugin automatically generates similar cross-sellings.
+# Shopware6 - Smart Product Recommendations
+We help customers find the desired products efficiently and increase the conversion rate of the webshop. This plugin automatically generates similar product recommendations.
 
 The purpose of this plugin is
 * Efficient search for desired product

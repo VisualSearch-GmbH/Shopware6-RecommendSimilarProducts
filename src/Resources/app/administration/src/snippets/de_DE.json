@@ -1,10 +1,10 @@
 {
     "vis-get-credentials": {
-        "title": "Klicken Sie hier, um Ihre API-Zugangsdaten zu erhalten"
+        "title": "Klicken Sie bitte hier, um Ihre API-Zugangsdaten zu erhalten"
     },
     "vis-verify-api-key": {
-        "success": "Die Verbindung wurde erfolgreich hergestellt",
-        "error": "Verbindung konnte nicht hergestellt werden. Bitte überprüfen Sie Ihre API-Anmeldeinformationen",
+        "success": "Die Verbindung wurde erfolgreich hergestellt.",
+        "error": "Verbindung konnte nicht hergestellt werden. Überprüfen Sie bitte Ihre API-Zugangsdaten.",
         "apiButton": "API-Zugangsdaten testen"
     },
     "vis-support": {

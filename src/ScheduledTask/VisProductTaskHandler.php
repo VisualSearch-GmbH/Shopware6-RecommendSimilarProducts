@@ -40,6 +40,7 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         SystemConfigService $systemConfigService,
         ContainerInterface $container
     ) {
+        parent::__construct($scheduledTaskRepository);
         $this->scheduledTaskRepository = $scheduledTaskRepository;
         $this->systemConfigService = $systemConfigService;
         $this->container = $container;

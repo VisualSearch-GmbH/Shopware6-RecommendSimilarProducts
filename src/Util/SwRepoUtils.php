@@ -9,6 +9,7 @@ namespace Vis\RecommendSimilarProducts\Util;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SwRepoUtils
 {

@@ -55,7 +55,7 @@ class ApiRequest
             curl_close($ch);
             $response = json_decode($response);
             return $response->{'message'};
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return $e->getMessage;
         }
     }
@@ -77,7 +77,7 @@ class ApiRequest
             curl_close($ch);
             $response = json_decode($response);
             return $response->{'message'};
-        }catch(Exception $e){
+        }catch(\Exception $e){
             return $e->getMessage;
         }
     }

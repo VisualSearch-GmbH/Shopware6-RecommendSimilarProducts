@@ -242,8 +242,8 @@ class RecommendationsController extends AbstractController
         return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
     }
     /**
-     * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/api_key_verify", name="store-api.action.vis.api_key_verify", methods={"POST"})
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/api_key_verify", name="api.action.vis.api_key_verify", methods={"POST"})
      */
     public function apiKeyVerify(Request $request, Context $context): JsonResponse
     {

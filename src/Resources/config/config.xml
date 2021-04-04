@@ -4,12 +4,12 @@
 
     <card>
         <title>API credentials</title>
-        <title lang="de-DE">API Zugangsdaten</title>
+        <title lang="de-DE">API-Zugangsdaten</title>
 
         <input-field>
             <name>apiKey</name>
             <label>API Key:</label>
-            <label lang="de-DE">API Schlüssel</label>
+            <label lang="de-DE">API-Schlüssel</label>
             <placeholder>API key here - please contact office@visualsearch.at</placeholder>
             <placeholder lang="de-DE">API-Schlüssel hier - bitte office@visualsearch.at kontaktieren</placeholder>
             <helpText>Please contact office@visualsearch.at to obtain your API key</helpText>
@@ -42,7 +42,7 @@
         <input-field type="checkbox">
             <name>enabled</name>
             <label>Automatic Updates Enabled</label>
-            <label lang="de-DE">Automatische Aktualisierungen Aktiviert</label>
+            <label lang="de-DE">Automatische Aktualisierungen aktiviert</label>
             <helpText>To enable automatic updating of cross-sellings, turn on this box.</helpText>
             <helpText lang="de-DE">Um die automatische Aktualisierung von Cross-Sellings zu aktivieren, schalten Sie dieses Feld ein.</helpText>
         </input-field>

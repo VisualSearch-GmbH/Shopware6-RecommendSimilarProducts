@@ -1,4 +1,4 @@
-
+import './../init/api-service.init'
 import './components/visualsearch-get-credentials'
 import './components/visualsearch-support'
 import './components/visualsearch-verify-api-key'

@@ -5,7 +5,7 @@
     "vis-verify-api-key": {
         "success": "Die Verbindung wurde erfolgreich hergestellt",
         "error": "Verbindung konnte nicht hergestellt werden. Bitte überprüfen Sie Ihre API-Anmeldeinformationen",
-        "apiButton": "API Verbindung testen"
+        "apiButton": "API-Zugangsdaten testen"
     },
     "vis-support": {
         "documentation": "Dokumentation",

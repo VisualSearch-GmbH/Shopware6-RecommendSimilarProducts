@@ -1,7 +1,7 @@
 {
   "name": "vis/recommend-similar-products",
   "description": "Recommends visually similar products in the product detail page using Deep Learning.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "shopware-platform-plugin",
   "license": "MIT",
   "authors": [

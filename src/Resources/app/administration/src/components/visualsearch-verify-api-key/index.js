@@ -7,36 +7,36 @@ Component.register('vis-verify-api-key', {
     mixins: [
         Mixin.getByName('notification')
     ],
+
+    inject: [
+        'ApiKeyVerifyService'
+    ],
+
     data() {
         return {
             isLoading: false,
         };
     },
     methods: {
-        check() {
-
+        async check() {
             this.isLoading = true;
 
-            //
-            //
-            // Check API credentials HERE
-            //
-            //
-            // Method: Get
-            //const headers = {'Content-Type' : 'application/json', 'Vis-API-KEY': apiKey from config.xml};
-            // Header:
-            // Url: https://api.visualsearch.wien/api_key_verify
+            await this.ApiKeyVerifyService.verifyKey().then((response) => {
+                if(response.data.success == true) {
+                    // Success
+                    this.createNotificationSuccess({
+                        title: 'VisualSearch',
+                        message: this.$tc('vis-verify-api-key.success')
+                    });
+                } else  {
+                    // Error
+                    this.createNotificationError({
+                        title: 'VisualSearch',
+                        message: this.$tc('vis-verify-api-key.error')
+                    });
+                }
+            }).catch((exception) => {
 
-            // Success
-            this.createNotificationSuccess({
-                title: 'VisualSearch',
-                message: this.$tc('vis-verify-api-key.success')
-            });
-
-            // Error
-            this.createNotificationError({
-                title: 'VisualSearch',
-                message: this.$tc('vis-verify-api-key.error')
             });
 
             this.isLoading = false;

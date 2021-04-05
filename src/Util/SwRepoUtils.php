@@ -56,15 +56,13 @@ class SwRepoUtils
         EntityRepositoryInterface $productRepository,
         Criteria $criteria): array
     {
-        $products = $productRepository->search(
+        $productsSearch = $productRepository->search(
             $criteria,
             \Shopware\Core\Framework\Context::createDefaultContext()
         );
+        $productEntities = $productsSearch->getEntities()->getElements();
 
         $products = [];
-
-        $productEntities = $products->getEntities()->getElements();
-
         if(empty($productEntities)){
             return $products;
         }

@@ -9,7 +9,6 @@ namespace Vis\RecommendSimilarProducts\Util;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SwRepoUtils
 {
@@ -62,13 +61,13 @@ class SwRepoUtils
             \Shopware\Core\Framework\Context::createDefaultContext()
         );
 
+        $products = [];
+
         $productEntities = $products->getEntities()->getElements();
 
         if(empty($productEntities)){
-            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no product entities"]);
+            return $products;
         }
-
-        $products = [];
 
         // Get all products
         foreach($productEntities as $key => $productEntity){

@@ -32,6 +32,7 @@ class RecommendationsController extends AbstractController
     public function __construct(SystemConfigService $systemConfigService) {
         $this->systemConfigService = $systemConfigService;
     }
+
     /**
      * @RouteScope(scopes={"store-api"})
      * @Route("/store-api/v{version}/vis/delete_cross", name="store-api.action.vis.delete_cross", methods={"POST"})
@@ -186,7 +187,7 @@ class RecommendationsController extends AbstractController
         list($systemHosts,$systemKeys) = $retrieveHosts->getLocalHostsKeys();
 
         // submit update request
-        $api = new ApiRequest();
+        $api = new ApiRequest($this->container->get('log_entry.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
@@ -231,7 +232,7 @@ class RecommendationsController extends AbstractController
         list($systemHosts,$systemKeys) = $retrieveHosts->getLocalHostsKeys();
 
         // submit update request
-        $api = new ApiRequest();
+        $api = new ApiRequest($this->container->get('log_entry.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
@@ -248,7 +249,7 @@ class RecommendationsController extends AbstractController
     public function apiKeyVerify(Request $request, Context $context): JsonResponse
     {
         // verify api key
-        $api = new ApiRequest();
+        $api = new ApiRequest($this->container->get('log_entry.repository'));
         $message = $api->verify($this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'));
 
         if($message == "API key ok"){

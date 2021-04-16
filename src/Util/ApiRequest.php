@@ -7,28 +7,26 @@
 
 namespace Vis\RecommendSimilarProducts\Util;
 
+use Exception;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Vis\RecommendSimilarProducts\Logging\LoggingService;
+
 class ApiRequest
 {
-    public function notification($hosts, $post, $type): void
-    {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.visualsearch.wien/installation_notify',
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>'{"'.$post.'":"VisRecommendSimilarProducts"}',
-            CURLOPT_HTTPHEADER => array(
-                'Vis-API-KEY: marketing',
-                'Vis-SYSTEM-HOSTS:'.$hosts,
-                'Vis-SYSTEM-TYPE: '.$type.';VisRecommendSimilarProducts',
-                'Content-Type: application/json'
-            ),
-        ));
-        curl_exec($curl);
-        curl_close($curl);
+
+    /**
+     * @var loggingRepository
+     */
+    private $loggingRepository;
+
+    public function __construct(EntityRepositoryInterface $loggingRepository) {
+        $this->loggingRepository = $loggingRepository;
     }
 
     public function update($apiKey, $products, $systemHosts, $systemKeys): string
     {
+        $loggingService = new LoggingService($this->loggingRepository);
+
         // Form data for the API request
         $data = ["products" => $products];
 
@@ -54,14 +52,24 @@ class ApiRequest
             $response = curl_exec($ch);
             curl_close($ch);
             $response = json_decode($response);
+
+            $loggingService->addLogEntry($response->{'message'});
+            $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
+
             return $response->{'message'};
-        }catch(\Exception $e){
+        }catch(Exception $e){
+
+            $loggingService->addLogEntry($e->getMessage);
+            $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
+
             return $e->getMessage;
         }
     }
 
     public function verify($apiKey): string
     {
+        $loggingService = new LoggingService($this->loggingRepository);
+
         // Create a connection
         $url = 'https://api.visualsearch.wien/api_key_verify';
         $ch = curl_init($url);
@@ -71,13 +79,23 @@ class ApiRequest
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json',
             'Vis-API-KEY:'.$apiKey));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
         try{
             // Get the response
             $response = curl_exec($ch);
             curl_close($ch);
             $response = json_decode($response);
+
+            $loggingService->addLogEntry($response->{'message'});
+            $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
+
             return $response->{'message'};
-        }catch(\Exception $e){
+
+        }catch(Exception $e){
+
+            $loggingService->addLogEntry($e->getMessage);
+            $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
+
             return $e->getMessage;
         }
     }

@@ -53,12 +53,8 @@ class VisProductTaskHandler extends ScheduledTaskHandler
 
     public function run(): void
     {
-        // info message
-        echo("Info VisRecommendSimilarProducts: processing started\n");
-
         // if the plugin config checkbox is not checked then the plugin is not active
         if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
-            echo("Info VisRecommendSimilarProducts: plugin not active, exiting\n");
             return;
         }
 
@@ -75,11 +71,8 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         // search criteria with category
         $criteria = new Criteria();
         if(!empty($category)) {
-            echo "Info VisRecommendSimilarProducts: update this category ".$category." \n";
             $criteria->addFilter(new EqualsFilter('categoryTree', $category));
         }else{
-            echo "Info VisRecommendSimilarProducts: all products have cross-sellings\n";
-            echo("Info VisRecommendSimilarProducts: processing finished\n");
             return;
         }
         $criteria->addAssociation('cover');
@@ -88,7 +81,6 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         // search for products
         $products = $swRepo->searchProducts($productRepository, $criteria);
         if(empty($products)){
-            echo("Info VisRecommendSimilarProducts: no products\n");
             return;
         }
 
@@ -97,15 +89,11 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         list($systemHosts,$systemKeys) = $retrieveHosts->getLocalHostsKeys();
 
         // submit update request
-        $api = new ApiRequest();
+        $api = new ApiRequest($this->container->get('log_entry.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
             $systemHosts,
             $systemKeys);
-
-        // Info message
-        echo("Info VisRecommendSimilarProducts: ".$message."\n");
-        echo("Info VisRecommendSimilarProducts: processing finished\n");
     }
 }

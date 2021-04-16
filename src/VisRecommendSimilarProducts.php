@@ -12,7 +12,6 @@ use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
-use Vis\RecommendSimilarProducts\Util\ApiRequest;
 use Vis\RecommendSimilarProducts\Util\SwHostsKeys;
 
 class VisRecommendSimilarProducts extends Plugin
@@ -23,9 +22,7 @@ class VisRecommendSimilarProducts extends Plugin
         $retrieveHosts = new SwHostsKeys($this->container->get('sales_channel.repository'));
         $hosts = $retrieveHosts->getLocalHosts();
 
-        // api message
-        $api = new ApiRequest();
-        $api->notification($hosts, 'Install', 'shopware;install');
+        notification($hosts, 'Install', 'shopware;install');
 
         parent::install($installContext);
     }
@@ -36,9 +33,7 @@ class VisRecommendSimilarProducts extends Plugin
         $retrieveHosts = new SwHostsKeys($this->container->get('sales_channel.repository'));
         $hosts = $retrieveHosts->getLocalHosts();
 
-        // api message
-        $api = new ApiRequest();
-        $api->notification($hosts, 'Uninstall', 'shopware;uninstall');
+        notification($hosts, 'Uninstall', 'shopware;uninstall');
 
         parent::uninstall($uninstallContext);
     }
@@ -46,5 +41,23 @@ class VisRecommendSimilarProducts extends Plugin
     public function activate(ActivateContext $activateContext): void
     {
         parent::activate($activateContext);
+    }
+
+    public function notification($hosts, $post, $type): void
+    {
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://api.visualsearch.wien/installation_notify',
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{"'.$post.'":"VisRecommendSimilarProducts"}',
+            CURLOPT_HTTPHEADER => array(
+                'Vis-API-KEY: marketing',
+                'Vis-SYSTEM-HOSTS:'.$hosts,
+                'Vis-SYSTEM-TYPE: '.$type.';VisRecommendSimilarProducts',
+                'Content-Type: application/json'
+            ),
+        ));
+        curl_exec($curl);
+        curl_close($curl);
     }
 }

@@ -20,5 +20,11 @@
         "telephone": "Telephone",
         "contact": "Contact",
         "visualsearch_assistance_integration_team": "Need assistance? Feel free to contact our integration team:"
+    },
+    "vis-log": {
+        "title": "VisualSearch Logging",
+        "backButton": "Back",
+        "message": "Message",
+        "created": "Date"
     }
 }

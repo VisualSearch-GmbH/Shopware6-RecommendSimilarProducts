@@ -10,6 +10,7 @@ namespace Vis\RecommendSimilarProducts\Storefront\Controller;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
@@ -19,7 +20,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Vis\RecommendSimilarProducts\Util\ApiRequest;
-use Vis\RecommendSimilarProducts\Util\SwHostsKeys;
+use Vis\RecommendSimilarProducts\Util\SwHosts;
 use Vis\RecommendSimilarProducts\Util\SwRepoUtils;
 
 class RecommendationsController extends AbstractController
@@ -34,8 +35,8 @@ class RecommendationsController extends AbstractController
     }
 
     /**
-     * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/delete_cross", name="store-api.action.vis.delete_cross", methods={"POST"})
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/delete_cross", name="api.action.vis.delete_cross", methods={"POST"})
      */
     public function deleteCrossSellings(Request $request, Context $context): JsonResponse
     {
@@ -102,7 +103,32 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/update_cross", name="store-api.action.vis.update_cross", methods={"POST"})
+     * @Route("/store-api/v{version}/vis/status_logging", name="store-api.action.vis.status_logging", methods={"POST"})
+     */
+    public function statusLogging(Request $request, Context $context): JsonResponse
+    {
+        $loggingRepository = $this->container->get('s_plugin_vis_log.repository');
+
+        $criteria = new Criteria();
+        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
+        $criteria->setLimit(100);
+
+        $loggingSearch = $loggingRepository->search(
+            $criteria,
+            \Shopware\Core\Framework\Context::createDefaultContext()
+        );
+
+        $logs = [];
+        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+            array_push($logs, [$key, $logEntity->getMessage(), $logEntity->getCreatedAt()]);
+        }
+
+        $data = ["logs" => $logs];
+        return new JsonResponse(["code"=> 200, "message" => $data]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/update_cross", name="api.action.vis.update_cross", methods={"POST"})
      */
     public function updateCrossSellings(Request $request, Context $context): JsonResponse
     {
@@ -162,8 +188,8 @@ class RecommendationsController extends AbstractController
         return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: cross-sellings updated successfully"]);
     }
     /**
-     * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/update_categories", name="store-api.action.vis.update_categories", methods={"POST"})
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/update_categories", name="api.action.vis.update_categories", methods={"POST"})
      */
     public function updateAllCategories(Request $request, Context $context): JsonResponse
     {
@@ -183,23 +209,22 @@ class RecommendationsController extends AbstractController
         }
 
         // retrieve hosts and keys
-        $retrieveHosts = new SwHostsKeys($this->container->get('sales_channel.repository'));
-        list($systemHosts,$systemKeys) = $retrieveHosts->getLocalHostsKeys();
+        $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
+        $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('log_entry.repository'));
+        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts,
-            $systemKeys);
+            $systemHosts);
 
         // return message
         return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
     }
     /**
-     * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/update_one_category", name="store-api.action.vis.update_one_category", methods={"POST"})
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/update_one_category", name="api.action.vis.update_one_category", methods={"POST"})
      */
     public function updateOneCategory(Request $request, Context $context): JsonResponse
     {
@@ -228,16 +253,15 @@ class RecommendationsController extends AbstractController
         }
 
         // retrieve hosts and keys
-        $retrieveHosts = new SwHostsKeys($this->container->get('sales_channel.repository'));
-        list($systemHosts,$systemKeys) = $retrieveHosts->getLocalHostsKeys();
+        $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
+        $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('log_entry.repository'));
+        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts,
-            $systemKeys);
+            $systemHosts);
 
         // return message
         return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
@@ -249,7 +273,7 @@ class RecommendationsController extends AbstractController
     public function apiKeyVerify(Request $request, Context $context): JsonResponse
     {
         // verify api key
-        $api = new ApiRequest($this->container->get('log_entry.repository'));
+        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
         $message = $api->verify($this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'));
 
         if($message == "API key ok"){

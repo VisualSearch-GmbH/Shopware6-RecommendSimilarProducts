@@ -15,7 +15,7 @@ use Shopware\Core\Framework\MessageQueue\ScheduledTask\ScheduledTaskHandler;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Vis\RecommendSimilarProducts\Util\ApiRequest;
-use Vis\RecommendSimilarProducts\Util\SwHostsKeys;
+use Vis\RecommendSimilarProducts\Util\SwHosts;
 use Vis\RecommendSimilarProducts\Util\SwRepoUtils;
 
 class VisProductTaskHandler extends ScheduledTaskHandler
@@ -45,7 +45,7 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         $this->systemConfigService = $systemConfigService;
         $this->container = $container;
     }
-    
+
     public static function getHandledMessages(): iterable
     {
         return [ VisProductTask::class ];
@@ -85,15 +85,14 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         }
 
         // retrieve hosts and keys
-        $retrieveHosts = new SwHostsKeys($this->container->get('sales_channel.repository'));
-        list($systemHosts,$systemKeys) = $retrieveHosts->getLocalHostsKeys();
+        $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
+        $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('log_entry.repository'));
+        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts,
-            $systemKeys);
+            $systemHosts);
     }
 }

@@ -10,7 +10,7 @@ namespace Vis\RecommendSimilarProducts\Util;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 
-class SwHostsKeys
+class SwHosts
 {
     /**
      * @var salesChannelRepository
@@ -40,31 +40,4 @@ class SwHostsKeys
         }
         return implode(";",$systemHosts);
     }
-
-    // retrieve all sw keys and hosts
-    public function getLocalHostsKeys(): array
-    {
-        $systemHosts = [];
-        $systemKeys = [];
-
-        $criteria = new Criteria();
-        $criteria->addAssociation('domains');
-
-        $salesChannelIds = $this->salesChannelRepository->search(
-            $criteria,
-            \Shopware\Core\Framework\Context::createDefaultContext());
-
-        foreach($salesChannelIds->getEntities()->getElements() as $key =>$salesChannel){
-            foreach($salesChannel->getDomains()->getElements() as $element){
-                array_push($systemHosts, $element->getUrl());
-                array_push($systemKeys, $salesChannel->getAccessKey());
-            }
-        }
-
-        $systemHosts = implode(";",$systemHosts);
-        $systemKeys = implode(";",$systemKeys);
-
-        return array($systemHosts,$systemKeys);
-    }
-
 }

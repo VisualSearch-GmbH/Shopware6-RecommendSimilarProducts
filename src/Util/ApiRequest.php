@@ -15,7 +15,7 @@ class ApiRequest
 {
 
     /**
-     * @var loggingRepository
+     * @var EntityRepositoryInterface
      */
     private $loggingRepository;
 
@@ -23,7 +23,7 @@ class ApiRequest
         $this->loggingRepository = $loggingRepository;
     }
 
-    public function update($apiKey, $products, $systemHosts, $systemKeys): string
+    public function update($apiKey, $products, $systemHosts): string
     {
         $loggingService = new LoggingService($this->loggingRepository);
 
@@ -43,7 +43,6 @@ class ApiRequest
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json',
             'Vis-API-KEY:'.$apiKey,
-            'Vis-SYSTEM-KEY:'.$systemKeys,
             'Vis-SYSTEM-HOSTS:'.$systemHosts,
             'Vis-SYSTEM-TYPE:shopware'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -93,10 +92,10 @@ class ApiRequest
 
         }catch(Exception $e){
 
-            $loggingService->addLogEntry($e->getMessage);
+            $loggingService->addLogEntry($e->getMessage());
             $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
 
-            return $e->getMessage;
+            return $e->getMessage();
         }
     }
 }

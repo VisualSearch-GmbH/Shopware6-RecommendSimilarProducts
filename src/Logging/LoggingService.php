@@ -48,7 +48,7 @@ class LoggingService implements LoggingServiceInterface
             'id' => $id,
             'message' => $message,
             'level' => 0,
-            'channel' => "channel",
+            'channel' => 'channel',
             'created_at' => (new \DateTime())->format('Y-m-d H:i:s'),
         ];
     }

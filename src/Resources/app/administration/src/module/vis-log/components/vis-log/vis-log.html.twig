@@ -1,0 +1,24 @@
+{% block vis_logs %}
+    <sw-page>
+        <template slot="smart-bar-actions">
+            <sw-button :routerLink="{ name: 'sw.settings.index' }">
+                {{ $t('vis-log.backButton') }}
+            </sw-button>
+        </template>
+
+        <template slot="content">
+            <sw-entity-listing :columns="visLogColumns"
+                               :fullPage="false"
+                               :items="logData"
+                               :repository="logRepository">
+
+                <template slot="column-createdAt" slot-scope="{ item }">
+                    {{ item.createdAt | date({ hour: '2-digit', minute: '2-digit' }) }}
+                </template>
+
+            </sw-entity-listing>
+        </template>
+    </sw-page>
+{% endblock %}
+
+

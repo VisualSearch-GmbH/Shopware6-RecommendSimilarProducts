@@ -23,11 +23,15 @@ The plugin can work only with valid API key.
 ##### 4. In the plugin config, you can define the name of the cross-selling.
 The name of the cross-selling is used for the tab in the product detail page.
 
-## Invoke Computation of Recommendations using Shopware 6 ScheduledTasks
+## Invoke Computation of Recommendations Automatically
 
 The plugin can periodically and automatically check, if all of your products have cross-sellings with the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The products' ID's, name's, image url's and category will be sent to an external server. On the server, for every product the visually closest ones will be automatically computed. Afterwards, the computed cross-sellings will be automatically uploaded back to your webshop.
 
-##### 1. Follow Shopware tutorial to setup scheduled tasks
+### Enable the automatic computation of recommendations in Admin Panel
+
+### V1.0.3 No additional setup needed
+
+### V1.0.2 Follow Shopware tutorial to setup scheduled tasks
 You can find instructions here: https://docs.shopware.com/en/shopware-6-en/tutorials-and-faq/creating-scheduled-tasks
 
 An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
@@ -35,9 +39,6 @@ An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which wil
 * Write two following lines of code
 * `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
 * `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
-
-##### 2. Enable the automatic computation of recommendations
-Check the "Automatic Updates Enabled" box in the plugin config.
 
 ## Invoke Computation of Recommendations using Command
 

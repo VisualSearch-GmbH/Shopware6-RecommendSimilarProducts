@@ -67,8 +67,6 @@ class ApiRequest
 
     public function verify($apiKey): string
     {
-        $loggingService = new LoggingService($this->loggingRepository);
-
         // Create a connection
         $url = 'https://api.visualsearch.wien/api_key_verify';
         $ch = curl_init($url);
@@ -84,17 +82,8 @@ class ApiRequest
             $response = curl_exec($ch);
             curl_close($ch);
             $response = json_decode($response);
-
-            $loggingService->addLogEntry($response->{'message'});
-            $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
-
             return $response->{'message'};
-
         }catch(Exception $e){
-
-            $loggingService->addLogEntry($e->getMessage());
-            $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
-
             return $e->getMessage();
         }
     }

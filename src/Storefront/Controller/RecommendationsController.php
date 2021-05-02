@@ -268,6 +268,55 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/update_one_category_auto", name="api.action.vis.update_one_category_auto", methods={"POST"})
+     */
+    public function updateOneCategoryAuto(Request $request, Context $context): JsonResponse
+    {
+        // if the plugin config checkbox is not checked then the plugin is not active
+        if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
+            return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: automatic updates not enabled"]);
+        }
+
+        // get name and product repository
+        $name = $this->systemConfigService->get('VisRecommendSimilarProducts.config.cross');
+        $productRepository = $this->container->get('product.repository');
+
+        // get category with missing cross-sellings
+        $swRepo = new SwRepoUtils();
+        $category = $swRepo->getFirstCategory($productRepository, $name);
+
+        // search criteria with category
+        $criteria = new Criteria();
+        if(!empty($category)) {
+            $criteria->addFilter(new EqualsFilter('categoryTree', $category));
+        }else{
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
+        }
+        $criteria->addAssociation('cover');
+        $criteria->addAssociation('crossSellings');
+
+        // search for products
+        $products = $swRepo->searchProducts($productRepository, $criteria);
+        if(empty($products)){
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
+        }
+
+        // retrieve hosts and keys
+        $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
+        $systemHosts = $retrieveHosts->getLocalHosts();;
+
+        // submit update request
+        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $message = $api->update(
+            $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
+            $products,
+            $systemHosts);
+
+        // return message
+        return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
      * @Route("/api/v{version}/vis/api_key_verify", name="api.action.vis.api_key_verify", methods={"POST"})
      */
     public function apiKeyVerify(Request $request, Context $context): JsonResponse

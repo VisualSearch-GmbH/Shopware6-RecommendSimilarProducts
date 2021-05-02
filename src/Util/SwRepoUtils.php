@@ -17,6 +17,7 @@ class SwRepoUtils
     {
         // Search criteria
         $criteria = new Criteria();
+        $criteria->addAssociation('cover');
         $criteria->addAssociation('crossSellings');
 
         // Search in repository
@@ -30,7 +31,8 @@ class SwRepoUtils
 
         // Find first category with no cross-selling
         foreach($productEntities as $key => $productEntity){
-            if(!empty($productEntity->getName())){
+            $categories = $productEntity->getCategoryTree();
+            if((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)){
                 $perform = true;
                 if(empty($productEntity->getCrossSellings())){
                     $perform = true;
@@ -69,12 +71,9 @@ class SwRepoUtils
 
         // Get all products
         foreach($productEntities as $key => $productEntity){
-            if(!empty($productEntity->getName())){
-                if($productEntity->getCover()){
-                    array_push($products, [$key, $productEntity->getName(), $productEntity->getCategoryTree(), $productEntity->getCover()->getMedia()->getUrl()]);
-                }else{
-                    array_push($products, [$key, $productEntity->getName(), $productEntity->getCategoryTree()]);
-                }
+            $categories = $productEntity->getCategoryTree();
+            if((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)){
+                array_push($products, [$key, $productEntity->getName(), $productEntity->getCategoryTree(), $productEntity->getCover()->getMedia()->getUrl()]);
             }
         }
 

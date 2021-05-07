@@ -82,8 +82,8 @@ class RecommendationsController extends AbstractController
         return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: cross-sellings deleted successfully"]);
     }
     /**
-     * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/status_cross", name="store-api.action.vis.status_cross", methods={"POST"})
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/status_cross", name="api.action.vis.status_cross", methods={"POST"})
      */
     public function statusCrossSellings(Request $request, Context $context): JsonResponse
     {
@@ -91,19 +91,32 @@ class RecommendationsController extends AbstractController
 
         $productRepository = $this->container->get('product.repository');
 
-        // get category with missing cross-sellings
         $swRepo = new SwRepoUtils();
+
+        // search criteria
+        $criteria = new Criteria();
+        $criteria->addAssociation('cover');
+        $criteria->addAssociation('crossSellings');
+
+        // search repository
+        $products = $swRepo->searchProducts($productRepository, $criteria);
+        if(empty($products)){
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
+        }
+        $sp = sizeof($products);
+
+        // get category with missing cross-sellings
         $category = $swRepo->getFirstCategory($productRepository, $name);
 
         if(!empty($category)){
-            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: category with no cross-selling ".$category]);
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: size catalogue:".$sp."; category with no cross-selling:".$category]);
         }else{
-            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: update of cross-sellings not needed"]);
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: size catalogue:".$sp."; update of cross-sellings not needed"]);
         }
     }
     /**
-     * @RouteScope(scopes={"store-api"})
-     * @Route("/store-api/v{version}/vis/status_logging", name="store-api.action.vis.status_logging", methods={"POST"})
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/status_logging", name="api.action.vis.status_logging", methods={"POST"})
      */
     public function statusLogging(Request $request, Context $context): JsonResponse
     {

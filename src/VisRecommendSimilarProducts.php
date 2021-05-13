@@ -32,7 +32,7 @@ class VisRecommendSimilarProducts extends Plugin
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
         $hosts = $retrieveHosts->getLocalHosts();
 
-        $this->notification($hosts, $keys, 'shopware;install');
+        $this->notification($hosts, $keys, 'shopware6;install');
     }
 
     public function uninstall(UninstallContext $uninstallContext): void
@@ -52,7 +52,7 @@ class VisRecommendSimilarProducts extends Plugin
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
         $hosts = $retrieveHosts->getLocalHosts();
 
-        $this->notification($hosts, '', 'shopware;uninstall');
+        $this->notification($hosts, '', 'shopware6;uninstall');
     }
 
     public function activate(ActivateContext $activateContext): void

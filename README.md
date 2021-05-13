@@ -42,9 +42,8 @@ An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which wil
 
 ## Invoke Computation of Recommendations using Command
 
-Alternatively, we provide you two possibilities to manually computate product recommendations. First, you can update all recommendations regardless if they already exist or not. Second, only categories with missing recommendations will be updated.
+Alternatively, we provide you the possibility to manually computate product recommendations.
 
-* Update of all products. This command will *not check for missing cross-sellings* and will update all products in the catalogue. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://YOUR_DOMAIN/api/v3/vis/update_categories' --header 'Authorization: Bearer XYZ' --data-raw ''`
 * Update of one category. This command will *check for missing cross-sellings* and perform update in two steps. First, it will search for the first category, which contains at least one product with missing cross-selling with the defined name (see 4. in Installation). Second, it will perform an update of the recommendations for all products in this category. You can invoke this update using e.g. this command with your sw-access-key: `curl --location --request POST 'https://YOUR_DOMAIN/api/v3/vis/update_one_category' --header 'Authorization: Bearer XYZ' --data-raw ''`
 * Check the status of cross-sellings. You can check for missing cross-sellings with the defined name (see 4. in Installation) using e.g. this command: `curl --location --request POST 'https://YOUR_DOMAIN/store-api/v3/vis/status_cross' --header 'sw-access-key: XYZ' --data-raw ''`
 

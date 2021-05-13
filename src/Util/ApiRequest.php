@@ -44,7 +44,7 @@ class ApiRequest
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json',
             'Vis-API-KEY:'.$apiKey,
             'Vis-SYSTEM-HOSTS:'.$systemHosts,
-            'Vis-SYSTEM-TYPE:shopware'));
+            'Vis-SYSTEM-TYPE:shopware6'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         try{
             // Get the response

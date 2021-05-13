@@ -202,41 +202,6 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_categories", name="api.action.vis.update_categories", methods={"POST"})
-     */
-    public function updateAllCategories(Request $request, Context $context): JsonResponse
-    {
-        // get product repository
-        $productRepository = $this->container->get('product.repository');
-
-        // search criteria
-        $criteria = new Criteria();
-        $criteria->addAssociation('cover');
-        $criteria->addAssociation('crossSellings');
-
-        // search repository
-        $swRepo = new SwRepoUtils();
-        $products = $swRepo->searchProducts($productRepository, $criteria);
-        if(empty($products)){
-            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
-        }
-
-        // retrieve hosts and keys
-        $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
-        $systemHosts = $retrieveHosts->getLocalHosts();;
-
-        // submit update request
-        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
-        $message = $api->update(
-            $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
-            $products,
-            $systemHosts);
-
-        // return message
-        return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
-    }
-    /**
-     * @RouteScope(scopes={"api"})
      * @Route("/api/v{version}/vis/update_one_category", name="api.action.vis.update_one_category", methods={"POST"})
      */
     public function updateOneCategory(Request $request, Context $context): JsonResponse

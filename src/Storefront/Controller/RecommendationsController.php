@@ -202,32 +202,54 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_one_category", name="api.action.vis.update_one_category", methods={"POST"})
+     * @Route("/api/v{version}/vis/update_auto", name="api.action.vis.update_auto", methods={"POST"})
      */
-    public function updateOneCategory(Request $request, Context $context): JsonResponse
+    public function updateAuto(Request $request, Context $context): JsonResponse
     {
+        // if the plugin config checkbox is not checked then the plugin is not active
+        if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
+            return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: automatic updates not enabled"]);
+        }
+
         // get name and product repository
         $name = $this->systemConfigService->get('VisRecommendSimilarProducts.config.cross');
         $productRepository = $this->container->get('product.repository');
 
-        // get category with missing cross-sellings
         $swRepo = new SwRepoUtils();
-        $category = $swRepo->getFirstCategory($productRepository, $name);
 
-        // search criteria with category
+        // search criteria
         $criteria = new Criteria();
-        if(!empty($category)) {
-            $criteria->addFilter(new EqualsFilter('categoryTree', $category));
-        }else{
-            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
-        }
         $criteria->addAssociation('cover');
         $criteria->addAssociation('crossSellings');
 
-        // search for products
+        // search repository
         $products = $swRepo->searchProducts($productRepository, $criteria);
         if(empty($products)){
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
+        }
+
+        // for large catalogue update only one category
+        if (sizeof($products) > 1000) {
+
+            // get category with missing cross-sellings
+            $category = $swRepo->getFirstCategory($productRepository, $name);
+
+            // search criteria with category
+            $criteria = new Criteria();
+            if(!empty($category)) {
+                $criteria->addFilter(new EqualsFilter('categoryTree', $category));
+            }else{
+                return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
+            }
+            $criteria->addAssociation('cover');
+            $criteria->addAssociation('crossSellings');
+
+            // search for products
+            $products = $swRepo->searchProducts($productRepository, $criteria);
+
+            if(empty($products)){
+                return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
+            }
         }
 
         // retrieve hosts and keys
@@ -246,15 +268,58 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_one_category_auto", name="api.action.vis.update_one_category_auto", methods={"POST"})
+     * @Route("/api/v{version}/vis/update_categories", name="api.action.vis.update_categories", methods={"POST"})
      */
-    public function updateOneCategoryAuto(Request $request, Context $context): JsonResponse
+    public function updateCategories(Request $request, Context $context): JsonResponse
     {
         // if the plugin config checkbox is not checked then the plugin is not active
         if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
             return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: automatic updates not enabled"]);
         }
 
+        // get name and product repository
+        $name = $this->systemConfigService->get('VisRecommendSimilarProducts.config.cross');
+        $productRepository = $this->container->get('product.repository');
+
+        $swRepo = new SwRepoUtils();
+
+        // search criteria
+        $criteria = new Criteria();
+        $criteria->addAssociation('cover');
+        $criteria->addAssociation('crossSellings');
+
+        // search repository
+        $products = $swRepo->searchProducts($productRepository, $criteria);
+        if(empty($products)){
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
+        }
+
+        // update possible only for smaller shops
+        if (sizeof($products) < 2000) {
+            // retrieve hosts and keys
+            $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
+            $systemHosts = $retrieveHosts->getLocalHosts();;
+
+            // submit update request
+            $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+            $message = $api->update(
+                $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
+                $products,
+                $systemHosts);
+
+            // return message
+            return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
+        }
+
+        // return message
+        return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: catalogue too large, update only one category"]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/update_one_category", name="api.action.vis.update_one_category", methods={"POST"})
+     */
+    public function updateOneCategory(Request $request, Context $context): JsonResponse
+    {
         // get name and product repository
         $name = $this->systemConfigService->get('VisRecommendSimilarProducts.config.cross');
         $productRepository = $this->container->get('product.repository');

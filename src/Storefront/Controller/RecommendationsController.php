@@ -47,39 +47,10 @@ class RecommendationsController extends AbstractController
         // Get repository with products cross-sellings
         $productCrossSellingRepository = $this->container->get('product_cross_selling.repository');
 
-        // Search criteria
-        $criteria = new Criteria();
-        $criteria->addAssociation('crossSellings');
+        $swRepo = new SwRepoUtils();
+        $swRepo->deleteCrossSellings($productCrossSellingRepository, $name);
 
-        // Search in repository
-        $productRepository = $this->container->get('product.repository');
-        $products = $productRepository->search(
-            $criteria,
-            \Shopware\Core\Framework\Context::createDefaultContext()
-        );
-
-        $productEntities = $products->getEntities()->getElements();
-
-        // For each product in input json
-        foreach($productEntities as $productId => $productIDs){
-
-            // Search criteria
-            $criteria = new Criteria();
-            $criteria->addFilter(new EqualsFilter('name', $name));
-            $criteria->addFilter(new EqualsFilter('productId', $productId));
-
-            // Search for cross-sellings
-            $productCrossSelling = $productCrossSellingRepository->search(
-                $criteria,
-                \Shopware\Core\Framework\Context::createDefaultContext()
-            );
-            $elements = $productCrossSelling->getEntities()->getElements();
-            if(!empty($elements)){
-                $id = array_key_first($elements);
-                $productCrossSellingRepository->delete([['id' => $id]], Context::createDefaultContext());
-            }
-        }
-        return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: cross-sellings deleted successfully"]);
+        return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: cross-sellings deleted"]);
     }
     /**
      * @RouteScope(scopes={"api"})
@@ -294,25 +265,19 @@ class RecommendationsController extends AbstractController
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
         }
 
-        // update possible only for smaller shops
-        if (sizeof($products) < 2000) {
-            // retrieve hosts and keys
-            $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
-            $systemHosts = $retrieveHosts->getLocalHosts();;
+        // retrieve hosts and keys
+        $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
+        $systemHosts = $retrieveHosts->getLocalHosts();;
 
-            // submit update request
-            $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
-            $message = $api->update(
-                $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
-                $products,
-                $systemHosts);
-
-            // return message
-            return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
-        }
+        // submit update request
+        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $message = $api->update(
+            $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
+            $products,
+            $systemHosts);
 
         // return message
-        return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: catalogue too large, update only one category"]);
+        return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
     }
     /**
      * @RouteScope(scopes={"api"})

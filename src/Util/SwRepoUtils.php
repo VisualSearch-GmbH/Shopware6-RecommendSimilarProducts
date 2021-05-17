@@ -7,13 +7,51 @@
 
 namespace Vis\RecommendSimilarProducts\Util;
 
+use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 
 class SwRepoUtils
 {
+    // delete cross-sellings
+    public function deleteCrossSellings(EntityRepositoryInterface $repository, $name)
+    {
+        // Search criteria
+        $criteria = new Criteria();
+        $criteria->addAssociation('crossSellingsTranslation');
+
+        // Search in repository
+        $products = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
+
+        $productEntities = $products->getEntities()->getElements();
+
+        // For each product in input json
+        foreach($productEntities as $key => $productEntity){
+            if (strcmp($productEntity->getName(),$name) == 0) {
+                $repository->delete([['id' => $key]], Context::createDefaultContext());
+            }
+        }
+    }
+
+    // get configuration cross-selling name
+    public function getCrossSellingName(EntityRepositoryInterface $repository) : string
+    {
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('configurationKey', "VisRecommendSimilarProducts.config.cross"));
+
+        $config = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
+
+        // loop through results
+        foreach($config->getEntities()->getElements() as $key => $productEntity) {
+            // return first found configuration value
+            return $productEntity->getConfigurationValue();
+        }
+        return '';
+    }
+
     // get first category without cross-selling
-    public function getFirstCategory(EntityRepositoryInterface $productRepository, $name): string
+    public function getFirstCategory(EntityRepositoryInterface $repository, $name): string
     {
         // Search criteria
         $criteria = new Criteria();
@@ -21,10 +59,7 @@ class SwRepoUtils
         $criteria->addAssociation('crossSellings');
 
         // Search in repository
-        $products = $productRepository->search(
-            $criteria,
-            \Shopware\Core\Framework\Context::createDefaultContext()
-        );
+        $products = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
 
         $category = "";
         $productEntities = $products->getEntities()->getElements();
@@ -54,14 +89,10 @@ class SwRepoUtils
         return $category;
     }
 
-    public function searchProducts(
-        EntityRepositoryInterface $productRepository,
-        Criteria $criteria): array
+    public function searchProducts(EntityRepositoryInterface $repository, Criteria $criteria): array
     {
-        $productsSearch = $productRepository->search(
-            $criteria,
-            \Shopware\Core\Framework\Context::createDefaultContext()
-        );
+        $productsSearch = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
+
         $productEntities = $productsSearch->getEntities()->getElements();
 
         $products = [];

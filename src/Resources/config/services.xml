@@ -31,7 +31,6 @@
 
         <service id="Vis\RecommendSimilarProducts\Storefront\Controller\RecommendationsController" public="true">
             <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService"/>
-
             <call method="setContainer">
                 <argument type="service" id="service_container"/>
             </call>

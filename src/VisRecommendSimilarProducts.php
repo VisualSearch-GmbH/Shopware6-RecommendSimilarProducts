@@ -18,6 +18,7 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\System\Integration\IntegrationDefinition;
 use Vis\RecommendSimilarProducts\Util\SwHosts;
+use Vis\RecommendSimilarProducts\Util\SwRepoUtils;
 
 class VisRecommendSimilarProducts extends Plugin
 {
@@ -32,6 +33,7 @@ class VisRecommendSimilarProducts extends Plugin
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
         $hosts = $retrieveHosts->getLocalHosts();
 
+        // send notification
         $this->notification($hosts, $keys, 'shopware6;install');
     }
 
@@ -48,10 +50,16 @@ class VisRecommendSimilarProducts extends Plugin
             $connection->executeUpdate('DROP TABLE IF EXISTS `s_plugin_vis_log`');
         }
 
+        // delete cross-sellings
+        $swRepo = new SwRepoUtils();
+        $name = $swRepo->getCrossSellingName($this->container->get('system_config.repository'));
+        $swRepo->deleteCrossSellings($this->container->get('product_cross_selling.repository'),$name);
+
         // util class retrieve hosts
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
         $hosts = $retrieveHosts->getLocalHosts();
 
+        // send notification
         $this->notification($hosts, '', 'shopware6;uninstall');
     }
 

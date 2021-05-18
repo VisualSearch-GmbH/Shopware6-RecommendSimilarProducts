@@ -112,6 +112,25 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/status_version", name="api.action.vis.status_version", methods={"POST"})
+     */
+    public function statusVersion(Request $request, Context $context): JsonResponse
+    {
+        $repository = $this->container->get('plugin.repository');
+
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('name', "VisRecommendSimilarProducts"));
+
+        $search = $repository->search($criteria,\Shopware\Core\Framework\Context::createDefaultContext());
+
+        foreach($search->getEntities()->getElements() as $key => $entity){
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: V".$entity->getVersion()]);
+        }
+
+        return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: version unknown"]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
      * @Route("/api/v{version}/vis/update_cross", name="api.action.vis.update_cross", methods={"POST"})
      */
     public function updateCrossSellings(Request $request, Context $context): JsonResponse

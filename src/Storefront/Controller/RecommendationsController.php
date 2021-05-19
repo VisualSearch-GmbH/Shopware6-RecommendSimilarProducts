@@ -218,21 +218,21 @@ class RecommendationsController extends AbstractController
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
         }
 
+        // get category with missing cross-sellings
+        $category = $swRepo->getFirstCategory($productRepository, $name);
+
+        // search criteria with category
+        $criteria = new Criteria();
+        if(!empty($category)) {
+            $criteria->addFilter(new EqualsFilter('categoryTree', $category));
+        }else{
+            return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
+        }
+        $criteria->addAssociation('cover');
+        $criteria->addAssociation('crossSellings');
+
         // for large catalogue update only one category
-        if (sizeof($products) > 1000) {
-
-            // get category with missing cross-sellings
-            $category = $swRepo->getFirstCategory($productRepository, $name);
-
-            // search criteria with category
-            $criteria = new Criteria();
-            if(!empty($category)) {
-                $criteria->addFilter(new EqualsFilter('categoryTree', $category));
-            }else{
-                return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
-            }
-            $criteria->addAssociation('cover');
-            $criteria->addAssociation('crossSellings');
+        if (sizeof($products) > 2000) {
 
             // search for products
             $products = $swRepo->searchProducts($productRepository, $criteria);
@@ -267,8 +267,7 @@ class RecommendationsController extends AbstractController
             return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: automatic updates not enabled"]);
         }
 
-        // get name and product repository
-        $name = $this->systemConfigService->get('VisRecommendSimilarProducts.config.cross');
+        // get product repository
         $productRepository = $this->container->get('product.repository');
 
         $swRepo = new SwRepoUtils();

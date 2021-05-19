@@ -221,18 +221,18 @@ class RecommendationsController extends AbstractController
         // get category with missing cross-sellings
         $category = $swRepo->getFirstCategory($productRepository, $name);
 
-        // search criteria with category
-        $criteria = new Criteria();
-        if(!empty($category)) {
-            $criteria->addFilter(new EqualsFilter('categoryTree', $category));
-        }else{
+        if(empty($category)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
         }
-        $criteria->addAssociation('cover');
-        $criteria->addAssociation('crossSellings');
 
         // for large catalogue update only one category
-        if (sizeof($products) > 2000) {
+        if (sizeof($products) > 1000) {
+
+            // search criteria with category
+            $criteria = new Criteria();
+            $criteria->addFilter(new EqualsFilter('categoryTree', $category));
+            $criteria->addAssociation('cover');
+            $criteria->addAssociation('crossSellings');
 
             // search for products
             $products = $swRepo->searchProducts($productRepository, $criteria);

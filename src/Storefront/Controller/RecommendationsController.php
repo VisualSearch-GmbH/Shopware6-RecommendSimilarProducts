@@ -226,7 +226,7 @@ class RecommendationsController extends AbstractController
         }
 
         // for large catalogue update only one category
-        if (sizeof($products) > 1000) {
+        if (sizeof($products) > 3000) {
 
             // search criteria with category
             $criteria = new Criteria();

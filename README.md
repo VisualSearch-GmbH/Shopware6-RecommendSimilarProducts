@@ -1,10 +1,29 @@
 # Shopware6 - Recommend Similar Products
-We help customers find the desired products efficiently and increase the conversion rate of the webshop. This plugin automatically generates similar product recommendations.
 
-The purpose of this plugin is
-* Efficient search for desired product
-* Optimized conversion rate for the webshop
-* Longer time spent in the webshop
+## Highlights
+* 1 month free testing with free support
+* Increased conversion rate for the webshop
+* Does not need user privacy data
+* No labour costs with the maintenance of recommendations
+* Does not need cookies
+
+## Features
+* Recommends the most visually similar products from the catalogue
+* Regular automatic updating of these recommendations
+* Available for any category like: Fashion, Furniture, Jewellery, Toys, etc.
+* Recommendations are displayed on the product detail page as similar products
+* Efficient search for the desired product
+* Higher shopping satisfaction
+* Customers stay longer in the shop
+
+## Description
+**Automatically generates visually similar product recommendations**
+
+We offer testing with support for 1 month for free!
+
+This plugin provides automatic creation of visually similar recommendations for all available products. The creation of these recommendations is possible using an innovative algorithm that automatically finds visually related products in all available categories. These visually related products will be displayed in the product detail page as a cross-selling tab.
+
+In this plugin, the provided recommendations are created with a custom AI algorithm. This algorithm is running on an external server and a valid API key is needed to access this service.
 
 Below is an example of visually similar recommendations of a red jacket. Other examples can be found in our demo store here: https://shopware.visualsearch.at
 
@@ -12,33 +31,14 @@ Below is an example of visually similar recommendations of a red jacket. Other e
 
 ## Installation
 
-This plugin provides automatic or manual computation of recommendations for all products in the webshop. All products are analyzed using custom Deep Learning algorithms and visually similar products are displayed in the cross-selling tabs. The analytics of products is performed on an external server. Please follow these installation instructions and obtain a **valid API key**.
-
-##### 1. Install the plugin from Shopware marketplace.
-We will provide a link to the plugin soon.
-##### 2. Contact please office@visualsearch.at to obtain your API key.
-Once you contact our office, we will provide you the suitable subscription plan according to the size of your webshop.
-##### 3. In the plugin config, enter please the received API key.
-The plugin can work only with valid API key.
-##### 4. In the plugin config, you can define the name of the cross-selling.
-The name of the cross-selling is used for the tab in the product detail page.
-
-## Invoke Computation of Recommendations Automatically
-
-The plugin can periodically and automatically check, if all of your products have cross-sellings with the defined name (see 4. in Installation). If one product does not have the cross-selling with the defined name, then all products within this category are selected for an update. The products' ID's, name's, image url's and category will be sent to an external server. On the server, for every product the visually closest ones will be automatically computed. Afterwards, the computed cross-sellings will be automatically uploaded back to your webshop.
-
-### Enable the automatic computation of recommendations in Admin Panel
-
-### V1.0.3 No additional setup needed
-
-### V1.0.2 Follow Shopware tutorial to setup scheduled tasks
-You can find instructions here: https://docs.shopware.com/en/shopware-6-en/tutorials-and-faq/creating-scheduled-tasks
-
-An example of the setup of Shopware 6 scheduled tasks in Ubuntu 20.04, which will run every 5min for 295sec:
-* Open crontab config file using `sudo -u www-data crontab -e`
-* Write two following lines of code
-* `*/5 * * * * php /var/www/html/shopware/bin/console scheduled-task:run --time-limit=295`
-* `*/5 * * * * php /var/www/html/shopware/bin/console messenger:consume --time-limit=295`
+* Install this plugin.
+* Request your API key. Follow the link in the plugin configuration "Please click here to get your API credentials" or visit our website https://www.visualsearch.at/index.php/credentials/. Once you contact our office, we will provide you with an API key and you can test this plugin for 1 month for free!
+* Please wait for an email with your API key.
+* In the configuration, paste the API key you received, press "Save" and optionally you can use the "Validate API credentials" button to check this key.
+* In the plug-in configuration, you can define the name of the cross-selling.
+* In the plugin configuration, please select automatic updates.
+* Please press "Save".
+* Please wait for automatic updates to generate the similarity recommendations. The time for generation of recommendations depends on the size of your shop.
 
 ## Invoke Computation of Recommendations using Command
 

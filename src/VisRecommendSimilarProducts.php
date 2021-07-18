@@ -48,6 +48,7 @@ class VisRecommendSimilarProducts extends Plugin
             /** @var Connection $connection */
             $connection = $this->container->get(Connection::class);
             $connection->executeUpdate('DROP TABLE IF EXISTS `s_plugin_vis_log`');
+            $connection->executeUpdate('DROP TABLE IF EXISTS `s_plugin_vis_sold_clicked_products`');
         }
 
         // delete cross-sellings

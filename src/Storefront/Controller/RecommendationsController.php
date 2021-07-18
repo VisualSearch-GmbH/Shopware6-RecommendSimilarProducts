@@ -36,7 +36,7 @@ class RecommendationsController extends AbstractController
 
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/delete_cross", name="api.action.vis.delete_cross", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/delete_cross", name="api.action.vis.sim.delete_cross", methods={"POST"})
      */
     public function deleteCrossSellings(Request $request, Context $context): JsonResponse
     {
@@ -54,7 +54,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/status_cross", name="api.action.vis.status_cross", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/status_cross", name="api.action.vis.sim.status_cross", methods={"POST"})
      */
     public function statusCrossSellings(Request $request, Context $context): JsonResponse
     {
@@ -87,15 +87,65 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/status_logging", name="api.action.vis.status_logging", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/stats_clicks", name="api.action.vis.sim.stats_clicks", methods={"POST"})
      */
-    public function statusLogging(Request $request, Context $context): JsonResponse
+    public function statsClicks(Request $request, Context $context): JsonResponse
+    {
+        $loggingRepository = $this->container->get('s_plugin_vis_sold_clicked_products.repository');
+
+        $criteria = new Criteria();
+        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
+        $criteria->setLimit(5000);
+
+        $loggingSearch = $loggingRepository->search(
+            $criteria,
+            \Shopware\Core\Framework\Context::createDefaultContext()
+        );
+
+        $logs = [];
+        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+            array_push($logs, [$key, $logEntity->getNumberClick(), $logEntity->getCreatedAt()]);
+        }
+
+        $data = ["logs" => $logs];
+        return new JsonResponse(["code"=> 200, "message" => $data]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/sim/stats_orders", name="api.action.vis.sim.stats_orders", methods={"POST"})
+     */
+    public function statsOrders(Request $request, Context $context): JsonResponse
+    {
+        $loggingRepository = $this->container->get('order.repository');
+
+        $criteria = new Criteria();
+        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
+        $criteria->setLimit(5000);
+
+        $loggingSearch = $loggingRepository->search(
+            $criteria,
+            \Shopware\Core\Framework\Context::createDefaultContext()
+        );
+
+        $logs = [];
+        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+            array_push($logs, [$key, $logEntity->getAmountTotal(), $logEntity->getCreatedAt()]);
+        }
+
+        $data = ["logs" => $logs];
+        return new JsonResponse(["code"=> 200, "message" => $data]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/sim/stats_updates", name="api.action.vis.sim.stats_updates", methods={"POST"})
+     */
+    public function statsUpdates(Request $request, Context $context): JsonResponse
     {
         $loggingRepository = $this->container->get('s_plugin_vis_log.repository');
 
         $criteria = new Criteria();
         $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
-        $criteria->setLimit(100);
+        $criteria->setLimit(5000);
 
         $loggingSearch = $loggingRepository->search(
             $criteria,
@@ -112,7 +162,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/status_version", name="api.action.vis.status_version", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/status_version", name="api.action.vis.sim.status_version", methods={"POST"})
      */
     public function statusVersion(Request $request, Context $context): JsonResponse
     {
@@ -131,7 +181,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_cross", name="api.action.vis.update_cross", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/update_cross", name="api.action.vis.sim.update_cross", methods={"POST"})
      */
     public function updateCrossSellings(Request $request, Context $context): JsonResponse
     {
@@ -192,7 +242,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_auto", name="api.action.vis.update_auto", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/update_auto", name="api.action.vis.sim.update_auto", methods={"POST"})
      */
     public function updateAuto(Request $request, Context $context): JsonResponse
     {
@@ -258,7 +308,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_categories", name="api.action.vis.update_categories", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/update_categories", name="api.action.vis.sim.update_categories", methods={"POST"})
      */
     public function updateCategories(Request $request, Context $context): JsonResponse
     {
@@ -299,7 +349,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/update_one_category", name="api.action.vis.update_one_category", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/update_one_category", name="api.action.vis.sim.update_one_category", methods={"POST"})
      */
     public function updateOneCategory(Request $request, Context $context): JsonResponse
     {
@@ -343,7 +393,7 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/api_key_verify", name="api.action.vis.api_key_verify", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/api_key_verify", name="api.action.vis.sim.api_key_verify", methods={"POST"})
      */
     public function apiKeyVerify(Request $request, Context $context): JsonResponse
     {

@@ -68,7 +68,7 @@ class ApiRequest
     public function verify($apiKey): string
     {
         // Create a connection
-        $url = 'https://api.visualsearch.wien/api_key_verify';
+        $url = 'https://api.visualsearch.wien/api_key_verify_similar';
         $ch = curl_init($url);
 
         // Setting our options

@@ -6,7 +6,7 @@ class ApiKeyVerifyService extends ApiService {
     }
 
     verifyKey() {
-        const apiRoute = `${this.getApiBasePath()}/vis/api_key_verify`
+        const apiRoute = `${this.getApiBasePath()}/vis/sim/api_key_verify`
         return this.httpClient.post(
             apiRoute,  {
             }, {

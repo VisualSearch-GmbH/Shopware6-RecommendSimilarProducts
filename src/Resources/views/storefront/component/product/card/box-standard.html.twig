@@ -1,0 +1,80 @@
+{% sw_extends '@Storefront/storefront/component/product/card/box-standard.html.twig' %}
+
+{% block component_product_box_image %}
+    {% set visRecommend = shopware.config.VisRecommendSimilarProducts.config.cross %}
+    {% set productUrl = null %}
+
+    {% if sliderConfig.title.value == visRecommend %}
+        {% set productUrl = seoUrl('frontend.detail.page', {'productId': id}) ~ '?' ~ visRecommend %}
+    {% else %}
+        {% set productUrl = seoUrl('frontend.detail.page', {'productId': id}) %}
+    {% endif %}
+    <div class="product-image-wrapper">
+        {# fallback if display mode is not set #}
+        {% set displayMode = displayMode ?: 'standard' %}
+
+        {# set display mode 'cover' for box-image with standard display mode #}
+        {% if layout == 'image' and displayMode == 'standard' %}
+            {% set displayMode = 'cover' %}
+        {% endif %}
+
+        <a href="{{ productUrl }}"
+           title="{{ name }}"
+           class="product-image-link is-{{ displayMode }}">
+            {% if cover.url %}
+                {% set attributes = {
+                    'class': 'product-image is-'~displayMode,
+                    'alt': (cover.translated.alt ?: name),
+                    'title': (cover.translated.title ?: name)
+                } %}
+
+                {% if displayMode == 'cover' or displayMode == 'contain' %}
+                    {% set attributes = attributes|merge({ 'data-object-fit': displayMode }) %}
+                {% endif %}
+
+                {% sw_thumbnails 'product-image-thumbnails' with {
+                    media: cover,
+                    sizes: {
+                        'xs': '501px',
+                        'sm': '315px',
+                        'md': '427px',
+                        'lg': '333px',
+                        'xl': '284px'
+                    }
+                } %}
+            {% else %}
+                <div class="product-image-placeholder">
+                    {% sw_icon 'placeholder' style {
+                        'size': 'fluid'
+                    } %}
+                </div>
+            {% endif %}
+        </a>
+
+        {% if shopware.config.core.cart.wishlistEnabled %}
+            {% block component_product_box_wishlist_action %}
+                {% sw_include '@Storefront/storefront/component/product/card/wishlist.html.twig' with {
+                    appearance: 'circle',
+                    productId: id
+                } %}
+            {% endblock %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block component_product_box_name %}
+    {% set visRecommend = shopware.config.VisRecommendSimilarProducts.config.cross %}
+    {% set productUrl = null %}
+
+    {% if sliderConfig.title.value == visRecommend %}
+        {% set productUrl = seoUrl('frontend.detail.page', {'productId': id}) ~ '?' ~ visRecommend %}
+    {% else %}
+        {% set productUrl = seoUrl('frontend.detail.page', {'productId': id}) %}
+    {% endif %}
+
+    <a href="{{ productUrl }}"
+       class="product-name"
+       title="{{ name }}">
+        {{ name }}
+    </a>
+{% endblock %}

@@ -39,11 +39,6 @@ class VisClickedProductsDefinition extends EntityDefinition
         return new FieldCollection([
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
 
-
-            new FkField('product_id', 'productId', ProductDefinition::class),
-            (new ReferenceVersionField(ProductDefinition::class))->addFlags(new Required()),
-            new ManyToOneAssociationField('product', 'product_id', ProductDefinition::class, 'id', false),
-
             (new ReferenceVersionField(ProductDefinition::class))->addFlags(new PrimaryKey(), new Required()),
             (new IntField('number_click', 'numberClick')),
 

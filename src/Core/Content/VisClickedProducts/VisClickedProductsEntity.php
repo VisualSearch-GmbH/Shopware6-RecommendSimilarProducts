@@ -3,7 +3,6 @@
 namespace Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts;
 
 use DateTimeInterface;
-use Shopware\Core\Content\Product\ProductEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -15,16 +14,6 @@ class VisClickedProductsEntity extends Entity
      * @var int
      */
     protected $numberClick;
-
-    /**
-     * @var int
-     */
-    protected $numberSold;
-
-    /**
-     * @var float
-     */
-    protected $totalAmount;
 
     /**
      * @var DateTimeInterface
@@ -46,38 +35,6 @@ class VisClickedProductsEntity extends Entity
     public function setNumberClick(int $numberClick): void
     {
         $this->numberClick = $numberClick;
-    }
-
-    /**
-     * @return int
-     */
-    public function getNumberSold(): int
-    {
-        return $this->numberSold;
-    }
-
-    /**
-     * @param int $numberSold
-     */
-    public function setNumberSold(int $numberSold): void
-    {
-        $this->numberSold = $numberSold;
-    }
-
-    /**
-     * @return float
-     */
-    public function getTotalAmount(): float
-    {
-        return $this->totalAmount;
-    }
-
-    /**
-     * @param float $totalAmount
-     */
-    public function setTotalAmount(float $totalAmount): void
-    {
-        $this->totalAmount = $totalAmount;
     }
 
     /**

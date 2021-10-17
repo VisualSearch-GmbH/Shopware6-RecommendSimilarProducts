@@ -8,11 +8,11 @@ use Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts\VisClickedProdu
 /**
  * @method void              add(VisClickedProductsEntity $entity)
  * @method void              set(string $key, VisClickedProductsEntity $entity)
- * @method VisSoldClickedProductsEntity[]    getIterator()
- * @method VisSoldClickedProductsEntity[]    getElements()
- * @method VisSoldClickedProductsEntity|null get(string $key)
- * @method VisSoldClickedProductsEntity|null first()
- * @method VisSoldClickedProductsEntity|null last()
+ * @method VisClickedProductsEntity[]    getIterator()
+ * @method VislickedProductsEntity[]    getElements()
+ * @method VisClickedProductsEntity|null get(string $key)
+ * @method VisClickedProductsEntity|null first()
+ * @method VisClickedProductsEntity|null last()
  */
 class VisClickedProductsCollection extends EntityCollection
 {

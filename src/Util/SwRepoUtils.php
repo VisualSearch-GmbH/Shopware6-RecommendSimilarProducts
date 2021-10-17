@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php
+
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -57,6 +58,7 @@ class SwRepoUtils
         $criteria = new Criteria();
         $criteria->addAssociation('cover');
         $criteria->addAssociation('crossSellings');
+        $criteria->addFilter(new EqualsFilter('active', 1));
 
         // Search in repository
         $products = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
@@ -66,7 +68,9 @@ class SwRepoUtils
 
         // Find first category with no cross-selling
         foreach($productEntities as $key => $productEntity){
+
             $categories = $productEntity->getCategoryTree();
+
             if((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)){
                 $perform = true;
                 if(empty($productEntity->getCrossSellings())){

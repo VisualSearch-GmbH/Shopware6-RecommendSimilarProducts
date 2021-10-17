@@ -38,10 +38,6 @@ class VisClickedProductsDefinition extends EntityDefinition
     {
         return new FieldCollection([
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
-
-            (new ReferenceVersionField(ProductDefinition::class))->addFlags(new PrimaryKey(), new Required()),
-            (new IntField('number_click', 'numberClick')),
-
             (new DateField('date', 'date')),
         ]);
     }

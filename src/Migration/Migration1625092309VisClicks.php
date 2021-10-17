@@ -17,7 +17,6 @@ class Migration1625092309VisClicks extends MigrationStep
         $connection->executeUpdate('
             CREATE TABLE IF NOT EXISTS `recommend_similar_products_clicks` (
               `id` BINARY(16) NOT NULL,
-              `number_click` INT NOT NULL,
               `date` DATETIME(3) NOT NULL,
               `created_at` DATETIME(3) NOT NULL,
               `updated_at` DATETIME(3) NULL

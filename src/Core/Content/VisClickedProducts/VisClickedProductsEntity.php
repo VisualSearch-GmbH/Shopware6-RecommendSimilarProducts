@@ -20,23 +20,6 @@ class VisClickedProductsEntity extends Entity
      */
     protected $date;
 
-
-    /**
-     * @return int
-     */
-    public function getNumberClick(): int
-    {
-        return $this->numberClick;
-    }
-
-    /**
-     * @param int $numberClick
-     */
-    public function setNumberClick(int $numberClick): void
-    {
-        $this->numberClick = $numberClick;
-    }
-
     /**
      * @return DateTimeInterface
      */

@@ -95,6 +95,9 @@ class SwRepoUtils
 
     public function searchProducts(EntityRepositoryInterface $repository, Criteria $criteria): array
     {
+        // only active products
+        $criteria->addFilter(new EqualsFilter('active', 1));
+
         $productsSearch = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
 
         $productEntities = $productsSearch->getEntities()->getElements();

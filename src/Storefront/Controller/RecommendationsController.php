@@ -260,7 +260,6 @@ class RecommendationsController extends AbstractController
         $criteria = new Criteria();
         $criteria->addAssociation('cover');
         $criteria->addAssociation('crossSellings');
-        $criteria->addFilter(new EqualsFilter('active', 1));
 
         // search repository
         $products = $swRepo->searchProducts($productRepository, $criteria);
@@ -276,13 +275,12 @@ class RecommendationsController extends AbstractController
         }
 
         // for large catalogue update only one category
-        if (sizeof($products) > 3000) {
+        if (sizeof($products) > 10000) {
 
             // search criteria with category
             $criteria = new Criteria();
             $criteria->addAssociation('cover');
             $criteria->addAssociation('crossSellings');
-            $criteria->addFilter(new EqualsFilter('active', 1));
             $criteria->addFilter(new EqualsFilter('categoryTree', $category));
 
             // search for products
@@ -327,7 +325,6 @@ class RecommendationsController extends AbstractController
         $criteria = new Criteria();
         $criteria->addAssociation('cover');
         $criteria->addAssociation('crossSellings');
-        $criteria->addFilter(new EqualsFilter('active', 1));
 
         // search repository
         $products = $swRepo->searchProducts($productRepository, $criteria);
@@ -372,7 +369,6 @@ class RecommendationsController extends AbstractController
         }
         $criteria->addAssociation('cover');
         $criteria->addAssociation('crossSellings');
-        $criteria->addFilter(new EqualsFilter('active', 1));
 
         // search for products
         $products = $swRepo->searchProducts($productRepository, $criteria);

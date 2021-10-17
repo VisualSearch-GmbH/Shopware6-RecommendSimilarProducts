@@ -11,11 +11,6 @@ class VisClickedProductsEntity extends Entity
     use EntityIdTrait;
 
     /**
-     * @var int
-     */
-    protected $numberClick;
-
-    /**
      * @var DateTimeInterface
      */
     protected $date;

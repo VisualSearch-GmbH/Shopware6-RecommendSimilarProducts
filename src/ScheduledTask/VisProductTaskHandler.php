@@ -7,7 +7,6 @@
 
 namespace Vis\RecommendSimilarProducts\ScheduledTask;
 
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
@@ -89,7 +88,7 @@ class VisProductTaskHandler extends ScheduledTaskHandler
         $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,

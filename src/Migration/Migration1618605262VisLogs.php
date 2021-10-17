@@ -5,24 +5,24 @@ namespace Vis\RecommendSimilarProducts\Migration;
 use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Migration\MigrationStep;
 
-class Migration1625092309VisSoldClidkedProducts extends MigrationStep
+class Migration1618605262VisLogs extends MigrationStep
 {
     public function getCreationTimestamp(): int
     {
-        return 1625092309;
+        return 1618605262;
     }
 
     public function update(Connection $connection): void
     {
         $connection->executeUpdate('
-            CREATE TABLE IF NOT EXISTS `s_plugin_vis_sold_clicked_products` (
+            CREATE TABLE IF NOT EXISTS `recommend_similar_products_logs` (
               `id` BINARY(16) NOT NULL,
-              `number_click` INT NOT NULL,
-              `number_sold` INT NULL,
-              `total_amount` DOUBLE NULL,
-              `date` DATETIME(3) NOT NULL,
+              `message` VARCHAR(1500) NULL,
+              `level` SMALLINT NULL,
+              `channel` VARCHAR(50) NULL,
               `created_at` DATETIME(3) NOT NULL,
-              `updated_at` DATETIME(3) NULL
+              `updated_at` DATETIME(3) NULL,
+              PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
         ');
     }

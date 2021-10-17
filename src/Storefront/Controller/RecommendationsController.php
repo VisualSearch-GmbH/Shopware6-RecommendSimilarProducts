@@ -13,7 +13,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Sorting\FieldSorting;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Uuid\Uuid;
-use Shopware\Core\System\SalesChannel\SalesChannelContext;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -87,11 +86,11 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/sim/stats_clicks", name="api.action.vis.sim.stats_clicks", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/status_clicks", name="api.action.vis.sim.status_clicks", methods={"POST"})
      */
-    public function statsClicks(Request $request, Context $context): JsonResponse
+    public function statusClicks(Request $request, Context $context): JsonResponse
     {
-        $loggingRepository = $this->container->get('s_plugin_vis_sold_clicked_products.repository');
+        $loggingRepository = $this->container->get('recommend_similar_products_clicks.repository');
 
         $criteria = new Criteria();
         $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
@@ -112,9 +111,34 @@ class RecommendationsController extends AbstractController
     }
     /**
      * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/sim/stats_orders", name="api.action.vis.sim.stats_orders", methods={"POST"})
+     * @Route("/api/v{version}/vis/sim/status_logs", name="api.action.vis.sim.status_logs", methods={"POST"})
      */
-    public function statsOrders(Request $request, Context $context): JsonResponse
+    public function statusLogs(Request $request, Context $context): JsonResponse
+    {
+        $loggingRepository = $this->container->get('recommend_similar_products_logs.repository');
+
+        $criteria = new Criteria();
+        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
+        $criteria->setLimit(5000);
+
+        $loggingSearch = $loggingRepository->search(
+            $criteria,
+            \Shopware\Core\Framework\Context::createDefaultContext()
+        );
+
+        $logs = [];
+        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+            array_push($logs, [$key, $logEntity->getMessage(), $logEntity->getCreatedAt()]);
+        }
+
+        $data = ["logs" => $logs];
+        return new JsonResponse(["code"=> 200, "message" => $data]);
+    }
+    /**
+     * @RouteScope(scopes={"api"})
+     * @Route("/api/v{version}/vis/sim/status_orders", name="api.action.vis.sim.status_orders", methods={"POST"})
+     */
+    public function statusOrders(Request $request, Context $context): JsonResponse
     {
         $loggingRepository = $this->container->get('order.repository');
 
@@ -130,31 +154,6 @@ class RecommendationsController extends AbstractController
         $logs = [];
         foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
             array_push($logs, [$key, $logEntity->getAmountTotal(), $logEntity->getCreatedAt()]);
-        }
-
-        $data = ["logs" => $logs];
-        return new JsonResponse(["code"=> 200, "message" => $data]);
-    }
-    /**
-     * @RouteScope(scopes={"api"})
-     * @Route("/api/v{version}/vis/sim/stats_updates", name="api.action.vis.sim.stats_updates", methods={"POST"})
-     */
-    public function statsUpdates(Request $request, Context $context): JsonResponse
-    {
-        $loggingRepository = $this->container->get('s_plugin_vis_log.repository');
-
-        $criteria = new Criteria();
-        $criteria->addSorting(new FieldSorting('createdAt', FieldSorting::DESCENDING));
-        $criteria->setLimit(5000);
-
-        $loggingSearch = $loggingRepository->search(
-            $criteria,
-            \Shopware\Core\Framework\Context::createDefaultContext()
-        );
-
-        $logs = [];
-        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
-            array_push($logs, [$key, $logEntity->getMessage(), $logEntity->getCreatedAt()]);
         }
 
         $data = ["logs" => $logs];
@@ -297,7 +296,7 @@ class RecommendationsController extends AbstractController
         $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
@@ -338,7 +337,7 @@ class RecommendationsController extends AbstractController
         $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
@@ -382,7 +381,7 @@ class RecommendationsController extends AbstractController
         $systemHosts = $retrieveHosts->getLocalHosts();;
 
         // submit update request
-        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
@@ -398,7 +397,7 @@ class RecommendationsController extends AbstractController
     public function apiKeyVerify(Request $request, Context $context): JsonResponse
     {
         // verify api key
-        $api = new ApiRequest($this->container->get('s_plugin_vis_log.repository'));
+        $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->verify($this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'));
 
         if($message == "API key ok"){

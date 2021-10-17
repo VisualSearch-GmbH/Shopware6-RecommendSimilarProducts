@@ -11,7 +11,6 @@ use Doctrine\DBAL\Connection;
 use Shopware\Core\Framework\Api\Util\AccessKeyHelper;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
-use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\Plugin;
 use Shopware\Core\Framework\Plugin\Context\ActivateContext;
 use Shopware\Core\Framework\Plugin\Context\InstallContext;
@@ -47,8 +46,8 @@ class VisRecommendSimilarProducts extends Plugin
 
             /** @var Connection $connection */
             $connection = $this->container->get(Connection::class);
-            $connection->executeUpdate('DROP TABLE IF EXISTS `s_plugin_vis_log`');
-            $connection->executeUpdate('DROP TABLE IF EXISTS `s_plugin_vis_sold_clicked_products`');
+            $connection->executeUpdate('DROP TABLE IF EXISTS `recommend_similar_products_logs`');
+            $connection->executeUpdate('DROP TABLE IF EXISTS `recommend_similar_products_clicks`');
         }
 
         // delete cross-sellings

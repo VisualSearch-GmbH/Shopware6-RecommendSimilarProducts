@@ -20,40 +20,5 @@
         "telephone": "Telefon",
         "contact": "Kontakt",
         "visualsearch_assistance_integration_team": "Sie brauchen Hilfe? Kontaktieren Sie unser Integrations-Team:"
-    },
-    "vis-log": {
-      "title": "VisualSearch Logging",
-      "backButton": "Zurück",
-      "message": "Nachricht",
-      "created": "Datum",
-      "tabs": {
-        "visLogTab": "Aktualisierungen",
-        "soldPerDayTab": "Bestellungen",
-        "soldFromVisualSearch": "VisualSearch verkaufte Produkte",
-        "clickedFromVisualSearch": "VisualSearch angeklickte Produkte",
-        "soldClickedFromVisualSearch": "Klicks"
-        },
-        "orderColumns": {
-          "getVisualSearchStatistic": "Statistik aktualisieren"
-        },
-        "visClickedPerDayColumns": {
-            "productName": "Produktname",
-            "numberClicks": "Anzahl Klicks",
-            "date": "Datum"
-        },
-        "visSoldPerDayColumns": {
-            "productName": "Produktname",
-            "customerName": "Kundenname",
-            "date": "Datum"
-        },
-        "visSoldClickedPerDayColumns": {
-            "productName": "Produktname",
-            "customerName": "Kundenname",
-            "numberClicks": "Anzahl Klicks",
-            "numberSold": "Anzahl verkauft",
-            "date": "Datum",
-            "totalSold": "Insgesamt verkauft",
-            "getVisualSearchStatistic": "Statistik aktualisieren"
-        }
     }
 }

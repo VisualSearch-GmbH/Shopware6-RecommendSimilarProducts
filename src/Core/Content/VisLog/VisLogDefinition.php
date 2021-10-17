@@ -15,7 +15,7 @@ class VisLogDefinition extends EntityDefinition
 
     public function getEntityName(): string
     {
-        return 's_plugin_vis_log';
+        return 'recommend_similar_products_logs';
     }
 
     public function getEntityClass(): string

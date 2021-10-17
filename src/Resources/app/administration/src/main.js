@@ -3,8 +3,6 @@ import './components/visualsearch-get-credentials'
 import './components/visualsearch-support'
 import './components/visualsearch-verify-api-key'
 
-import './module/vis-log'
-
 import localeDE from './snippets/de_DE.json';
 import localeEN from './snippets/en_GB.json';
 

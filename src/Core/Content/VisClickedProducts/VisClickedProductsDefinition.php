@@ -9,33 +9,29 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IdField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\IntField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ManyToOneAssociationField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\OneToManyAssociationField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\ReferenceVersionField;
-use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
-use Shopware\Core\Content\Product\ProductCollection;
-use Vis\RecommendSimilarProducts\Core\Content\VisSoldClickedProducts\VisSoldClickedProductsEntity;
-use Vis\RecommendSimilarProducts\Core\Content\VisSoldClickedProducts\VisSoldClickedProductsCollection;
+use Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts\VisClickedProductsEntity;
+use Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts\VisClickedProductsCollection;
 
 class VisClickedProductsDefinition extends EntityDefinition
 {
 
     public function getEntityName(): string
     {
-        return 's_plugin_vis_clicked_products';
+        return 'recommend_similar_products_clicks';
     }
 
     public function getEntityClass(): string
     {
-        return VisSoldClickedProductsEntity::class;
+        return VisClickedProductsEntity::class;
     }
 
     public function getCollectionClass(): string
     {
-        return VisSoldClickedProductsCollection::class;
+        return VisClickedProductsCollection::class;
     }
 
     protected function defineFields(): FieldCollection

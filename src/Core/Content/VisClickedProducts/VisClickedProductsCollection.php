@@ -3,12 +3,11 @@
 namespace Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
-use Vis\RecommendSimilarProducts\Core\Content\VisSoldClickedProducts\VisSoldClickedProductsEntity;
-
+use Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts\VisClickedProductsEntity;
 
 /**
- * @method void              add(VisSoldClickedProductsEntity $entity)
- * @method void              set(string $key, VisSoldClickedProductsEntity $entity)
+ * @method void              add(VisClickedProductsEntity $entity)
+ * @method void              set(string $key, VisClickedProductsEntity $entity)
  * @method VisSoldClickedProductsEntity[]    getIterator()
  * @method VisSoldClickedProductsEntity[]    getElements()
  * @method VisSoldClickedProductsEntity|null get(string $key)
@@ -19,6 +18,6 @@ class VisClickedProductsCollection extends EntityCollection
 {
     protected function getExpectedClass(): string
     {
-        return VisSoldClickedProductsEntity::class;
+        return VisClickedProductsEntity::class;
     }
 }

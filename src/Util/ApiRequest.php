@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -13,13 +15,13 @@ use Vis\RecommendSimilarProducts\Logging\LoggingService;
 
 class ApiRequest
 {
-
     /**
      * @var EntityRepositoryInterface
      */
     private $loggingRepository;
 
-    public function __construct(EntityRepositoryInterface $loggingRepository) {
+    public function __construct(EntityRepositoryInterface $loggingRepository)
+    {
         $this->loggingRepository = $loggingRepository;
     }
 
@@ -46,7 +48,7 @@ class ApiRequest
             'Vis-SYSTEM-HOSTS:'.$systemHosts,
             'Vis-SYSTEM-TYPE:shopware6'));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        try{
+        try {
             // Get the response
             $response = curl_exec($ch);
             curl_close($ch);
@@ -56,8 +58,7 @@ class ApiRequest
             $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
 
             return $response->{'message'};
-        }catch(Exception $e){
-
+        } catch (Exception $e) {
             $loggingService->addLogEntry($e->getMessage);
             $loggingService->saveLogging(\Shopware\Core\Framework\Context::createDefaultContext());
 
@@ -77,13 +78,13 @@ class ApiRequest
             'Vis-API-KEY:'.$apiKey));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        try{
+        try {
             // Get the response
             $response = curl_exec($ch);
             curl_close($ch);
             $response = json_decode($response);
             return $response->{'message'};
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return $e->getMessage();
         }
     }

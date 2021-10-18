@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -17,7 +19,6 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
 
 class VisLogDefinition extends EntityDefinition
 {
-
     public function getEntityName(): string
     {
         return 'recommend_similar_products_logs';

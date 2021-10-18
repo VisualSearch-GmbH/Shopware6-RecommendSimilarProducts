@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -18,7 +20,6 @@ use Vis\RecommendSimilarProducts\Core\Content\VisClickedProducts\VisClickedProdu
 
 class VisClickedProductsDefinition extends EntityDefinition
 {
-
     public function getEntityName(): string
     {
         return 'recommend_similar_products_clicks';

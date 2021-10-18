@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -17,7 +19,8 @@ class SwHosts
      */
     private $salesChannelRepository;
 
-    public function __construct(EntityRepositoryInterface $salesChannelRepository) {
+    public function __construct(EntityRepositoryInterface $salesChannelRepository)
+    {
         $this->salesChannelRepository = $salesChannelRepository;
     }
 
@@ -31,13 +34,14 @@ class SwHosts
 
         $salesChannelIds = $this->salesChannelRepository->search(
             $criteria,
-            \Shopware\Core\Framework\Context::createDefaultContext());
+            \Shopware\Core\Framework\Context::createDefaultContext()
+        );
 
-        foreach($salesChannelIds->getEntities()->getElements() as $key =>$salesChannel){
-            foreach($salesChannel->getDomains()->getElements() as $element){
+        foreach ($salesChannelIds->getEntities()->getElements() as $key =>$salesChannel) {
+            foreach ($salesChannel->getDomains()->getElements() as $element) {
                 array_push($systemHosts, $element->getUrl());
             }
         }
-        return implode(";",$systemHosts);
+        return implode(";", $systemHosts);
     }
 }

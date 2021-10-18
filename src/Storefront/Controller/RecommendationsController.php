@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -29,7 +31,8 @@ class RecommendationsController extends AbstractController
      */
     private $systemConfigService;
 
-    public function __construct(SystemConfigService $systemConfigService) {
+    public function __construct(SystemConfigService $systemConfigService)
+    {
         $this->systemConfigService = $systemConfigService;
     }
 
@@ -70,7 +73,7 @@ class RecommendationsController extends AbstractController
 
         // search repository
         $products = $swRepo->searchProducts($productRepository, $criteria);
-        if(empty($products)){
+        if (empty($products)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
         }
         $sp = sizeof($products);
@@ -78,9 +81,9 @@ class RecommendationsController extends AbstractController
         // get category with missing cross-sellings
         $category = $swRepo->getFirstCategory($productRepository, $name);
 
-        if(!empty($category)){
+        if (!empty($category)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: size catalogue:".$sp."; category with no cross-selling:".$category]);
-        }else{
+        } else {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: size catalogue:".$sp."; update of cross-sellings not needed"]);
         }
     }
@@ -102,7 +105,7 @@ class RecommendationsController extends AbstractController
         );
 
         $logs = [];
-        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+        foreach ($loggingSearch->getEntities()->getElements() as $key => $logEntity) {
             array_push($logs, [$key, $logEntity->getNumberClick(), $logEntity->getCreatedAt()]);
         }
 
@@ -127,7 +130,7 @@ class RecommendationsController extends AbstractController
         );
 
         $logs = [];
-        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+        foreach ($loggingSearch->getEntities()->getElements() as $key => $logEntity) {
             array_push($logs, [$key, $logEntity->getMessage(), $logEntity->getCreatedAt()]);
         }
 
@@ -152,7 +155,7 @@ class RecommendationsController extends AbstractController
         );
 
         $logs = [];
-        foreach($loggingSearch->getEntities()->getElements() as $key => $logEntity){
+        foreach ($loggingSearch->getEntities()->getElements() as $key => $logEntity) {
             array_push($logs, [$key, $logEntity->getAmountTotal(), $logEntity->getCreatedAt()]);
         }
 
@@ -170,9 +173,9 @@ class RecommendationsController extends AbstractController
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('name', "VisRecommendSimilarProducts"));
 
-        $search = $repository->search($criteria,\Shopware\Core\Framework\Context::createDefaultContext());
+        $search = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
 
-        foreach($search->getEntities()->getElements() as $key => $entity){
+        foreach ($search->getEntities()->getElements() as $key => $entity) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: V".$entity->getVersion()]);
         }
 
@@ -192,9 +195,9 @@ class RecommendationsController extends AbstractController
         $productCrossSellingRepository = $this->container->get('product_cross_selling.repository');
 
         // For each product in input json
-        foreach($productEntities as $productId => $productIDs){
+        foreach ($productEntities as $productId => $productIDs) {
             $assignedProducts = [];
-            foreach($productIDs as $key => $productID){
+            foreach ($productIDs as $key => $productID) {
                 array_push($assignedProducts, [
                     'productId' => $productID,
                     'position' => $key,
@@ -214,12 +217,12 @@ class RecommendationsController extends AbstractController
                 \Shopware\Core\Framework\Context::createDefaultContext()
             );
             $elements = $productCrossSelling->getEntities()->getElements();
-            if(!empty($elements)){
+            if (!empty($elements)) {
                 $id = array_key_first($elements);
             }
-            if(empty($id)){
+            if (empty($id)) {
                 $id = Uuid::randomHex();
-            }else{
+            } else {
                 // Delete our old cross selling as update does not update correctly
                 $productCrossSellingRepository->delete([['id' => $id]], Context::createDefaultContext());
             }
@@ -246,7 +249,7 @@ class RecommendationsController extends AbstractController
     public function updateAuto(Request $request, Context $context): JsonResponse
     {
         // if the plugin config checkbox is not checked then the plugin is not active
-        if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
+        if (!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')) {
             return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: automatic updates not enabled"]);
         }
 
@@ -263,14 +266,14 @@ class RecommendationsController extends AbstractController
 
         // search repository
         $products = $swRepo->searchProducts($productRepository, $criteria);
-        if(empty($products)){
+        if (empty($products)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
         }
 
         // get category with missing cross-sellings
         $category = $swRepo->getFirstCategory($productRepository, $name);
 
-        if(empty($category)) {
+        if (empty($category)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
         }
 
@@ -286,21 +289,23 @@ class RecommendationsController extends AbstractController
             // search for products
             $products = $swRepo->searchProducts($productRepository, $criteria);
 
-            if(empty($products)){
+            if (empty($products)) {
                 return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
             }
         }
 
         // retrieve hosts and keys
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
-        $systemHosts = $retrieveHosts->getLocalHosts();;
+        $systemHosts = $retrieveHosts->getLocalHosts();
+        ;
 
         // submit update request
         $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts);
+            $systemHosts
+        );
 
         // return message
         return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
@@ -312,7 +317,7 @@ class RecommendationsController extends AbstractController
     public function updateCategories(Request $request, Context $context): JsonResponse
     {
         // if the plugin config checkbox is not checked then the plugin is not active
-        if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
+        if (!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')) {
             return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: automatic updates not enabled"]);
         }
 
@@ -328,20 +333,22 @@ class RecommendationsController extends AbstractController
 
         // search repository
         $products = $swRepo->searchProducts($productRepository, $criteria);
-        if(empty($products)){
+        if (empty($products)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
         }
 
         // retrieve hosts and keys
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
-        $systemHosts = $retrieveHosts->getLocalHosts();;
+        $systemHosts = $retrieveHosts->getLocalHosts();
+        ;
 
         // submit update request
         $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts);
+            $systemHosts
+        );
 
         // return message
         return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
@@ -362,9 +369,9 @@ class RecommendationsController extends AbstractController
 
         // search criteria with category
         $criteria = new Criteria();
-        if(!empty($category)) {
+        if (!empty($category)) {
             $criteria->addFilter(new EqualsFilter('categoryTree', $category));
-        }else{
+        } else {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: all products have cross-sellings"]);
         }
         $criteria->addAssociation('cover');
@@ -372,20 +379,22 @@ class RecommendationsController extends AbstractController
 
         // search for products
         $products = $swRepo->searchProducts($productRepository, $criteria);
-        if(empty($products)){
+        if (empty($products)) {
             return new JsonResponse(["code"=> 200, "message" => "Info VisRecommendSimilarProducts: no products"]);
         }
 
         // retrieve hosts and keys
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
-        $systemHosts = $retrieveHosts->getLocalHosts();;
+        $systemHosts = $retrieveHosts->getLocalHosts();
+        ;
 
         // submit update request
         $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts);
+            $systemHosts
+        );
 
         // return message
         return new JsonResponse(["code"=>200, "message" =>"Info VisRecommendSimilarProducts: ".$message]);
@@ -400,9 +409,9 @@ class RecommendationsController extends AbstractController
         $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->verify($this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'));
 
-        if($message == "API key ok"){
+        if ($message == "API key ok") {
             return new JsonResponse(['success' => true]);
-        }else{
+        } else {
             return new JsonResponse(['success' => false]);
         }
     }

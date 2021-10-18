@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -53,7 +55,7 @@ class VisProductTaskHandler extends ScheduledTaskHandler
     public function run(): void
     {
         // if the plugin config checkbox is not checked then the plugin is not active
-        if(!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')){
+        if (!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')) {
             return;
         }
 
@@ -69,9 +71,9 @@ class VisProductTaskHandler extends ScheduledTaskHandler
 
         // search criteria with category
         $criteria = new Criteria();
-        if(!empty($category)) {
+        if (!empty($category)) {
             $criteria->addFilter(new EqualsFilter('categoryTree', $category));
-        }else{
+        } else {
             return;
         }
         $criteria->addAssociation('cover');
@@ -79,19 +81,21 @@ class VisProductTaskHandler extends ScheduledTaskHandler
 
         // search for products
         $products = $swRepo->searchProducts($productRepository, $criteria);
-        if(empty($products)){
+        if (empty($products)) {
             return;
         }
 
         // retrieve hosts and keys
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
-        $systemHosts = $retrieveHosts->getLocalHosts();;
+        $systemHosts = $retrieveHosts->getLocalHosts();
+        ;
 
         // submit update request
         $api = new ApiRequest($this->container->get('recommend_similar_products_logs.repository'));
         $message = $api->update(
             $this->systemConfigService->get('VisRecommendSimilarProducts.config.apiKey'),
             $products,
-            $systemHosts);
+            $systemHosts
+        );
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
  * For the full copyright and license information, please view the LICENSE
@@ -53,7 +55,7 @@ class VisRecommendSimilarProducts extends Plugin
         // delete cross-sellings
         $swRepo = new SwRepoUtils();
         $name = $swRepo->getCrossSellingName($this->container->get('system_config.repository'));
-        $swRepo->deleteCrossSellings($this->container->get('product_cross_selling.repository'),$name);
+        $swRepo->deleteCrossSellings($this->container->get('product_cross_selling.repository'), $name);
 
         // util class retrieve hosts
         $retrieveHosts = new SwHosts($this->container->get('sales_channel.repository'));
@@ -205,7 +207,6 @@ class VisRecommendSimilarProducts extends Plugin
         ];
 
         $aclRoleRepository->upsert([$aclRoleObject], Context::createDefaultContext());
-
     }
 
     public function deleteRole()
@@ -216,7 +217,7 @@ class VisRecommendSimilarProducts extends Plugin
         $aclRoleRepository->delete([['id' => '3082295f733345d5a37b8c9c4da8820a']], Context::createDefaultContext());
     }
 
-    public function createIntegration() : string
+    public function createIntegration(): string
     {
         /** @var EntityRepositoryInterface $integrationRepository */
         $integrationRepository = $this->container->get('integration.repository');
@@ -237,7 +238,7 @@ class VisRecommendSimilarProducts extends Plugin
 
         $integrationRepository->upsert([$integrationObject], Context::createDefaultContext());
 
-        return implode(";",[$access_key,$secret_access_key]);
+        return implode(";", [$access_key,$secret_access_key]);
     }
 
     public function deleteIntegration()

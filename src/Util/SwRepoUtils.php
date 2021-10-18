@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) VisualSearch GmbH <office@visualsearch.at>
@@ -28,15 +30,15 @@ class SwRepoUtils
         $productEntities = $products->getEntities()->getElements();
 
         // For each product in input json
-        foreach($productEntities as $key => $productEntity){
-            if (strcmp($productEntity->getName(),$name) == 0) {
+        foreach ($productEntities as $key => $productEntity) {
+            if (strcmp($productEntity->getName(), $name) == 0) {
                 $repository->delete([['id' => $key]], Context::createDefaultContext());
             }
         }
     }
 
     // get configuration cross-selling name
-    public function getCrossSellingName(EntityRepositoryInterface $repository) : string
+    public function getCrossSellingName(EntityRepositoryInterface $repository): string
     {
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('configurationKey', "VisRecommendSimilarProducts.config.cross"));
@@ -44,7 +46,7 @@ class SwRepoUtils
         $config = $repository->search($criteria, \Shopware\Core\Framework\Context::createDefaultContext());
 
         // loop through results
-        foreach($config->getEntities()->getElements() as $key => $productEntity) {
+        foreach ($config->getEntities()->getElements() as $key => $productEntity) {
             // return first found configuration value
             return $productEntity->getConfigurationValue();
         }
@@ -67,22 +69,21 @@ class SwRepoUtils
         $productEntities = $products->getEntities()->getElements();
 
         // Find first category with no cross-selling
-        foreach($productEntities as $key => $productEntity){
-
+        foreach ($productEntities as $key => $productEntity) {
             $categories = $productEntity->getCategoryTree();
 
-            if((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)){
+            if ((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)) {
                 $perform = true;
-                if(empty($productEntity->getCrossSellings())){
+                if (empty($productEntity->getCrossSellings())) {
                     $perform = true;
-                }else{
-                    foreach($productEntity->getCrossSellings()->getElements() as $key => $CrossSelling){
-                        if($CrossSelling->getName() == $name){
+                } else {
+                    foreach ($productEntity->getCrossSellings()->getElements() as $key => $CrossSelling) {
+                        if ($CrossSelling->getName() == $name) {
                             $perform = false;
                         }
                     }
                 }
-                if($perform){
+                if ($perform) {
                     // $categoryTree = json_encode($productEntity->getCategoryTree());
                     $categoryTree = $productEntity->getCategoryTree();
                     $category = $categoryTree[sizeof($categoryTree)-1];
@@ -103,14 +104,14 @@ class SwRepoUtils
         $productEntities = $productsSearch->getEntities()->getElements();
 
         $products = [];
-        if(empty($productEntities)){
+        if (empty($productEntities)) {
             return $products;
         }
 
         // Get all products
-        foreach($productEntities as $key => $productEntity){
+        foreach ($productEntities as $key => $productEntity) {
             $categories = $productEntity->getCategoryTree();
-            if((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)){
+            if ((!empty($productEntity->getName())) && ($productEntity->getCover()) && (count($categories) > 1)) {
                 array_push($products, [$key, $productEntity->getName(), $productEntity->getCategoryTree(), '', $productEntity->getCover()->getMedia()->getUrl()]);
             }
         }

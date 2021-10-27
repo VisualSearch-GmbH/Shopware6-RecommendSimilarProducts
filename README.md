@@ -1,7 +1,7 @@
 # Shopware6 - Recommend Similar Products
 
 ## Highlights
-* 1 month free testing with free support
+* 10 days free testing with free support
 * Increased conversion rate for the webshop
 * Does not need user privacy data
 * No labour costs with the maintenance of recommendations
@@ -19,7 +19,7 @@
 ## Description
 **Automatically generates visually similar product recommendations**
 
-We offer testing with support for 1 month for free!
+We offer testing with support for 10 days for free!
 
 This plugin provides automatic creation of visually similar recommendations for all available products. The creation of these recommendations is possible using an innovative algorithm that automatically finds visually related products in all available categories. These visually related products will be displayed in the product detail page as a cross-selling tab.
 

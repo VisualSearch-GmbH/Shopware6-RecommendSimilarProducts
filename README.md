@@ -32,7 +32,7 @@ Below is an example of visually similar recommendations of a red jacket. Other e
 ## Installation
 
 * Install this plugin.
-* Request your API key. Follow the link in the plugin configuration "Please click here to get your API credentials" or visit our website https://www.visualsearch.at/index.php/credentials/. Once you contact our office, we will provide you with an API key and you can test this plugin for 1 month for free!
+* Request your API key. Follow the link in the plugin configuration "Please click here to get your API credentials" or visit our website https://www.visualsearch.at/index.php/credentials/. Once you contact our office, we will provide you with an API key and you can test this plugin for 10 days for free!
 * Please wait for an email with your API key.
 * In the configuration, paste the API key you received, press "Save" and optionally you can use the "Validate API credentials" button to check this key.
 * In the plug-in configuration, you can define the name of the cross-selling.

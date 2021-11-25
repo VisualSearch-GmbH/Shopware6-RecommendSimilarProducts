@@ -317,11 +317,6 @@ class RecommendationsController extends AbstractController
      */
     public function updateCategories(Request $request, Context $context): JsonResponse
     {
-        // if the plugin config checkbox is not checked then the plugin is not active
-        if (!$this->systemConfigService->get('VisRecommendSimilarProducts.config.enabled')) {
-            return new JsonResponse(["code" => 200, "message" => "Info VisRecommendSimilarProducts: automatic updates not enabled"]);
-        }
-
         // get product repository
         $productRepository = $this->container->get('product.repository');
 
